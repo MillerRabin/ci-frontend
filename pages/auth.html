@@ -1,0 +1,46 @@
+<div class="Auth">
+    <div class="panel">
+        <button class="hover focus panel-button" v-on:click="login">Log In</button>
+        <button class="hover focus panel-button" v-on:click="signup">Sign Up</button>
+    </div>
+    <div class="form-container" v-show="isVisible">
+        <button class="close focus icon-cancel" title="close"></button>
+        <div class="form">
+            <div class="tabs">
+                <button class="tab hover focus login" v-bind:class="{ active: tab == 0 }" v-on:click="tab = 0">Log In</button>
+                <button class="tab hover focus signup" v-bind:class="{ active: tab == 1 }" v-on:click="tab = 1">Sign Up</button>
+            </div>
+            <div class="login tab-content" v-show="tab == 0">
+                <label>
+                    <input type="text" v-model="email" placeholder="E-mail"/>
+                    <span v-show="errors.email" v-html="errors.email"></span>
+                </label>
+                <label>
+                    <input type="password" v-model="password" placeholder="password"/>
+                    <span v-show="errors.password" v-html="errors.password"></span>
+                </label>
+                <button class="panel-button hover focus">Log In</button>
+            </div>
+            <div class="signup tab-content" v-show="tab == 1">
+                <label>
+                    <input type="text" v-model="email" placeholder="E-mail"/>
+                    <span v-show="errors.email" v-html="errors.email"></span>
+                </label>
+                <label>
+                    <input type="password" v-model="password" placeholder="New password"/>
+                    <span v-show="errors.password" v-html="errors.newPassword"></span>
+                </label>
+                <label>
+                    <input type="password" v-model="confirmPassword" placeholder="Confirm password"/>
+                    <span v-show="errors.password" v-html="errors.confirmPassword"></span>
+                </label>
+                <label>
+                    <input type="checkbox" v-model="agree"/>
+                    <span>By signing up, you agree to terms of service and privacy policy</span>
+                    <span v-show="errors.password" v-html="errors.confirmPassword"></span>
+                </label>
+                <button class="panel-button hover focus">Sign Up</button>
+            </div>
+        </div>
+    </div>
+</div>

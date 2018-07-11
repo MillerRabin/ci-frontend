@@ -1,0 +1,39 @@
+footer {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 0;
+}
+
+footer .copyrights {
+    padding: 3.929rem 3.214rem;
+    background-color: #323232;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    color: #fff;
+    font-size: 1.5rem;
+}
+
+footer .copyrights .item.copy a {
+    color: #999;
+}
+
+footer .copyrights .item.copy {
+    padding-top: 1rem;
+    width: 40%;
+}
+
+footer .copyrights .item.back a {
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    font-size: 1.857rem;
+    height: 4vw;
+    text-decoration: none;
+    width: 4vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: .2rem;
+    color: inherit;
+}
