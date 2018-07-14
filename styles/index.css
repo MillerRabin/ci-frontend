@@ -66,6 +66,8 @@ button {
     background-color: transparent;
     color: #747474;
     cursor: pointer;
+    border: none;
+    padding: 0;
 }
 
 .panel-button {

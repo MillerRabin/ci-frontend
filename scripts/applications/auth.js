@@ -1,4 +1,5 @@
 import loader from '/scripts/loader.js';
+import messages from '/scripts/services/messages.js'
 
 loader.application('auth', [async () => {
     function init() {
@@ -14,6 +15,17 @@ loader.application('auth', [async () => {
         }
     }
 
+    function show(vm, tab = 0) {
+        vm.isVisible = true;
+        vm.tab = tab;
+        messages.send('popup.show');
+    }
+
+    function hide(vm) {
+        vm.isVisible = false;
+        messages.send('popup.close');
+    }
+
     await loader.createVueTemplate({ path: '/pages/auth.html', id: 'Auth-Template' });
     const res = {};
     res.Constructor = Vue.component('auth', {
@@ -23,12 +35,16 @@ loader.application('auth', [async () => {
         },
         methods: {
             login: function () {
-                this.isVisible = true;
-                this.tab = 0;
+               show(this, 0);
             },
             signup: function () {
-                this.isVisible = true;
-                this.tab = 1;
+                show(this, 1);
+            },
+            close: function () {
+                hide(this);
+            },
+            restore: function () {
+
             }
         }
     });
