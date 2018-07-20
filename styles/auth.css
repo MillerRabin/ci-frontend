@@ -2,8 +2,20 @@
     margin-right: 4rem;
 }
 
-.Auth .form-container {
+.Auth .form {
     position: fixed;
+    top: 8vw;
+    width: 34.722vw;
+    height: auto;
+    background-color: #ffffff;
+    border-radius: 0.139vw;
+    box-sizing: border-box;
+    padding: 2.083vw 3.472vw;
+    border: none;
+}
+
+.Auth .form::backdrop {
+    position: absolute;
     z-index: 10;
     width: 100%;
     height: 100%;
@@ -12,10 +24,10 @@
     background-color: rgba(0,0,0,0.5);
 }
 
-.Auth .form-container .close {
+.Auth .form .close {
     position: absolute;
-    right: 29.4vw;
-    top: 7.4vw;
+    right: -2.5vw;
+    top: -2.5vw;
     border-radius: 50%;
     display: block;
     padding: 0;
@@ -27,13 +39,24 @@
     border: none;
 }
 
-.Auth .form-container .tabs {
+.Auth .form .close:hover {
+    background-color: rgba(84, 84, 84, 0.3);
+}
+
+.Auth .form label {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+    text-align: left;
+}
+
+.Auth .form .tabs {
     display: flex;
     margin-bottom: 2rem;
     justify-content: space-between;
 }
 
-.Auth .form-container .tabs .tab {
+.Auth .form .tabs .tab {
     border: none;
     background-color: inherit;
     display: block;
@@ -47,31 +70,13 @@
     margin-bottom: 2.083vw;
 }
 
-.Auth .form-container .tabs .tab.active {
+.Auth .form .tabs .tab.active {
     border-bottom: 0.069vw solid #ff603d;
     color: #ff603d;
 }
 
-.Auth .form-container .tabs .tab.focus.active {
+.Auth .form .tabs .tab.focus.active {
     outline: none;
-}
-
-.Auth .form {
-    position: absolute;
-    left: 32.639vw;
-    top: 10vw;
-    width: 34.722vw;
-    height: auto;
-    background-color: #ffffff;
-    border-radius: 0.139vw;
-    box-sizing: border-box;
-    padding: 2.083vw 3.472vw;}
-
-.Auth .form label {
-    display: block;
-    width: 100%;
-    margin-top: 1rem;
-    text-align: left;
 }
 
 .Auth .form label:first-child {

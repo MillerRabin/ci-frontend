@@ -4,7 +4,7 @@ import messages from '/scripts/services/messages.js'
 loader.application('auth', [async () => {
     function init() {
         return {
-            isVisible: false,
+            dialog: null,
             tab: 0,
             email: '',
             password: '',
@@ -16,13 +16,19 @@ loader.application('auth', [async () => {
     }
 
     function show(vm, tab = 0) {
-        vm.isVisible = true;
+        vm.email = '';
+        vm.password = '';
+        vm.newPassword = '';
+        vm.confirmPassword = '';
+        vm.errors = {};
+        vm.agree = true;
+        vm.dialog.showModal();
         vm.tab = tab;
         messages.send('popup.show');
     }
 
     function hide(vm) {
-        vm.isVisible = false;
+        vm.dialog.close();
         messages.send('popup.close');
     }
 
@@ -34,18 +40,27 @@ loader.application('auth', [async () => {
             return init();
         },
         methods: {
-            login: function () {
+            loginDialog: function () {
                show(this, 0);
             },
-            signup: function () {
+            signupDialog: function () {
                 show(this, 1);
             },
-            close: function () {
+            closeDialog: function () {
                 hide(this);
             },
             restore: function () {
 
+            },
+            signup: function () {
+
+            },
+            login: function () {
+
             }
+        },
+        mounted: function () {
+            this.dialog = this.$el.querySelector('dialog');
         }
     });
     return res;
