@@ -75,10 +75,6 @@
     color: #ff603d;
 }
 
-.Auth .form .tabs .tab.focus.active {
-    outline: none;
-}
-
 .Auth .form label:first-child {
     margin-top: 0;
 }

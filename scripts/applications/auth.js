@@ -1,5 +1,6 @@
 import loader from '/scripts/loader.js';
 import messages from '/scripts/services/messages.js'
+import raintechAuth from '/scripts/services/raintechAuth.js'
 
 loader.application('auth', [async () => {
     function init() {
@@ -53,10 +54,16 @@ loader.application('auth', [async () => {
 
             },
             signup: function () {
-
+                return raintechAuth.signup({
+                    email: this.email,
+                    password: this.newPassword
+                });
             },
             login: function () {
-
+                return raintechAuth.login({
+                    email: this.email,
+                    password: this.password
+                });
             }
         },
         mounted: function () {
