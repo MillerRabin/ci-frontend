@@ -1,6 +1,7 @@
 import loader from '/scripts/loader.js';
 import messages from '/scripts/services/messages.js'
 import raintechAuth from '/scripts/services/raintechAuth.js'
+const referer = 'ci.raintech.su';
 
 loader.application('auth', [async () => {
     function init() {
@@ -61,8 +62,9 @@ loader.application('auth', [async () => {
             },
             login: function () {
                 return raintechAuth.login({
-                    email: this.email,
-                    password: this.password
+                    loginOrEmail: this.email,
+                    password: this.password,
+                    referer: referer
                 });
             }
         },
