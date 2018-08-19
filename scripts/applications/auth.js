@@ -12,7 +12,9 @@ loader.application('auth', [async () => {
             newPassword: '',
             confirmPassword: '',
             errors: {},
-            agree: true
+            agree: true,
+            currentUser: raintechAuth.currentUser,
+            loaded: false
         }
     }
 
@@ -35,10 +37,18 @@ loader.application('auth', [async () => {
 
     await loader.createVueTemplate({ path: '/pages/auth.html', id: 'Auth-Template' });
     const res = {};
+
     res.Constructor = Vue.component('auth', {
         template: '#Auth-Template',
         data: function () {
             return init();
+        },
+        computed: {
+            fullName: function () {
+                let fullName = (this.currentUser == null) ? '' : this.currentUser.login;
+                fullName = (fullName == null) ? this.currentUser.email : fullName
+                return fullName;
+            }
         },
         methods: {
             loginDialog: function () {
@@ -65,15 +75,23 @@ loader.application('auth', [async () => {
                     password: this.newPassword
                 });
             },
-            login: function () {
-                return raintechAuth.login({
+            login: async function () {
+                await raintechAuth.login({
                     loginOrEmail: this.email,
                     password: this.password
                 });
+                this.closeDialog();
+            },
+            logout: function () {
+                raintechAuth.logout();
             }
         },
-        mounted: function () {
+        mounted: async function () {
             this.dialog = this.$el.querySelector('dialog');
+            try {
+                await raintechAuth.check();
+            } catch (e) {}
+            this.loaded = true;
         }
     });
     return res;
