@@ -1,7 +1,6 @@
 import loader from '/scripts/loader.js';
 import messages from '/scripts/services/messages.js'
 import raintechAuth from '/scripts/services/raintechAuth.js'
-const referer = 'ci.raintech.su';
 
 loader.application('auth', [async () => {
     function init() {
@@ -51,7 +50,13 @@ loader.application('auth', [async () => {
             closeDialog: function () {
                 hide(this);
             },
-            restore: function () {
+            restore: async function () {
+                this.errors = {};
+                try {
+                    await raintechAuth.restore({ email: this.email });
+                } catch (e) {
+                    this.errors = e;
+                }
 
             },
             signup: function () {
@@ -63,8 +68,7 @@ loader.application('auth', [async () => {
             login: function () {
                 return raintechAuth.login({
                     loginOrEmail: this.email,
-                    password: this.password,
-                    referer: referer
+                    password: this.password
                 });
             }
         },

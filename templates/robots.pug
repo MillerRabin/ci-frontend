@@ -1,0 +1,10 @@
+| User-agent: #{robots.userAgent}
+= "\n"
+| Sitemap: https://raintech.su/sitemap.xml
+= "\n"
+each page in pages
+    if (page.disallow == true)
+        - var destination = (page.alias == null) ? page.destination : page.alias;
+        - destination = destination.replace(/\\/g, '/');
+        | Disallow: /#{destination}
+        = "\n"

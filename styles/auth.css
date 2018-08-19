@@ -113,26 +113,6 @@
     margin: 1.389vw 0 0 0;
 }
 
-.Auth .tab-content .submit {
-    width: 13.889vw;
-    height: 4.167vw;
-    border-radius: 0.139vw;
-    border: solid 0.069vw #ff603d;
-    margin: 2.083vw auto;
-    display: block;
-    font-size: 1.389vw;
-    font-weight: 300;
-    text-align: center;
-    color: #ff603d;
-    background: none;
-    cursor: pointer;
-}
-
-.Auth .tab-content .submit:hover {
-    background-color: rgba(255, 96, 61, 0.3);
-}
-
-
 
 
 

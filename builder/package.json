@@ -1,0 +1,14 @@
+{
+  "name": "ci-builder",
+  "version": "1.0.0",
+  "description": "builder for frontend part of raintech ci",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "millerrabin",
+  "license": "ISC",
+  "dependencies": {
+    "pug": "^2.0.3"
+  }
+}

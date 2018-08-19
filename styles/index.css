@@ -62,6 +62,14 @@ h2 {
     color: rgba(0,0,0,0.7);
 }
 
+h3 {
+    word-wrap: break-word;
+    font-size: 1.2rem;
+    margin: 0 0 1rem 0;
+    font-weight: bold;
+    color: rgba(0,0,0,0.7);
+}
+
 button {
     background-color: transparent;
     color: #747474;
@@ -78,3 +86,27 @@ button {
     margin: 0.5rem 0 0.5rem 0;
     padding: 0 1rem 0 1rem;
 }
+
+.error {
+    color: #ff603d;
+}
+
+.submit {
+    width: 13.889vw;
+    height: 4.167vw;
+    border-radius: 0.139vw;
+    border: solid 0.069vw #ff603d;
+    margin: 2.083vw auto;
+    display: block;
+    font-size: 1.389vw;
+    font-weight: 300;
+    text-align: center;
+    color: #ff603d;
+    background: none;
+    cursor: pointer;
+}
+
+.submit:hover {
+    background-color: rgba(255, 96, 61, 0.3);
+}
+

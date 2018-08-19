@@ -5,11 +5,11 @@ import '/scripts/applications/auth.js';
 loader.application('Main', ['router', 'auth', async (router) => {
     const data = {};
 
-    return new Vue({
+     data.application = new Vue({
         el: '#CI',
         router: router,
         data: data
     });
 
-    return app;
+    return data;
 }]);
