@@ -1,15 +1,19 @@
 <div class="Auth" v-show="loaded">
-    <div class="panel" v-if="currentUser.certificate == null">
+    <div class="panel" v-if="currentUser == null">
         <button class="hover focus panel-button" v-on:click="loginDialog">Log In</button>
         <button class="hover focus panel-button" v-on:click="signupDialog">Sign Up</button>
     </div>
-    <button class="panel info" v-if="currentUser.certificate != null" tabIndex="10">
+    <button class="panel info" v-if="currentUser != null" tabIndex="10"
+        v-on:mouseenter="showProfile = true"
+        v-on:mouseleave="showProfile = false"
+        v-on:focus="showProfile = true"
+        v-on:blur="showProfile = false">
         <span class="orange">My profile /</span>
-        <span v-text="fullName"></span>
-        <span class="menu">
+        <span v-text="currentUser.fullName"></span>
+        <span class="menu" v-bind:class="{ show: showProfile }">
             <span class="item">
                 <span class="orange">My profile /</span>
-                <span v-text="fullName"></span>
+                <span v-text="currentUser.fullName"></span>
             </span>
             <button class="item" tabindex="11" v-on:click="logout">Log Out</button>
         </span>

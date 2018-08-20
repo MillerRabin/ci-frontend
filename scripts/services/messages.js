@@ -1,11 +1,11 @@
 const vm = new Vue();
 
 function send(message, params) {
-    vm.$emit(message, params);
+    return vm.$emit(message, params);
 }
 
 function on(message, callback) {
-    vm.$on(message, callback)
+    return vm.$on(message, callback)
 }
 
 export default {

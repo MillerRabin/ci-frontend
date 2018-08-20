@@ -3,6 +3,15 @@ import messages from '/scripts/services/messages.js'
 import raintechAuth from '/scripts/services/raintechAuth.js'
 
 loader.application('auth', [async () => {
+    function getUser() {
+        if (raintechAuth.currentUser.certificate == null) return null;
+        const fullName = raintechAuth.currentUser.login;
+        return {
+            fullName: fullName
+        }
+    }
+
+
     function init() {
         return {
             dialog: null,
@@ -13,8 +22,9 @@ loader.application('auth', [async () => {
             confirmPassword: '',
             errors: {},
             agree: true,
-            currentUser: raintechAuth.currentUser,
-            loaded: false
+            currentUser: getUser(),
+            loaded: false,
+            showProfile: false
         }
     }
 
@@ -37,18 +47,10 @@ loader.application('auth', [async () => {
 
     await loader.createVueTemplate({ path: '/pages/auth.html', id: 'Auth-Template' });
     const res = {};
-
     res.Constructor = Vue.component('auth', {
         template: '#Auth-Template',
         data: function () {
             return init();
-        },
-        computed: {
-            fullName: function () {
-                let fullName = (this.currentUser == null) ? '' : this.currentUser.login;
-                fullName = (fullName == null) ? this.currentUser.email : fullName
-                return fullName;
-            }
         },
         methods: {
             loginDialog: function () {
@@ -82,16 +84,22 @@ loader.application('auth', [async () => {
                 });
                 this.closeDialog();
             },
-            logout: function () {
-                raintechAuth.logout();
+            logout: async function () {
+                await raintechAuth.logout();
+                this.showProfile = false;
             }
         },
         mounted: async function () {
             this.dialog = this.$el.querySelector('dialog');
             try {
                 await raintechAuth.check();
+                this.currentUser = getUser();
             } catch (e) {}
             this.loaded = true;
+
+            messages.on('user.changed', () => {
+                this.currentUser = getUser();
+            });
         }
     });
     return res;

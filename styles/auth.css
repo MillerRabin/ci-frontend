@@ -122,12 +122,16 @@
     position: absolute;
     z-index: 2;
     width: 19vw;
-    top: 2.85vw;
-    right: 7.2vw;
+    top: 2.11vw;
+    right: 5.51vw;
     background-color: #545454;
     box-shadow: 0 0.139vw 0.278vw 0 rgba(0, 0, 0, 0.5);
     border-radius: 0.139vw;
     display: none;
+}
+
+.Auth .info .menu.show{
+    display: block;
 }
 
 .Auth .info .menu .item {
@@ -140,13 +144,6 @@
     background-color: rgba(255, 255, 255, 0.3);
 }
 
-.Auth .info:focus .menu{
-    display: block;
-}
-
-.Auth .info:hover .menu{
-    display: block;
-}
 
 
 

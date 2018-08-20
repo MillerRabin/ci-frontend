@@ -2,6 +2,7 @@ import loader from '/scripts/loader.js';
 import config from '/scripts/services/config.js';
 import safe from '/scripts/services/safe.js';
 import location from '/scripts/services/location.js';
+import messages from '/scripts/services/messages.js';
 
 const currentUser = {};
 
@@ -16,11 +17,12 @@ function saveCertificate(cert) {
     window.localStorage['raintech-auth'] = cert;
 }
 
-function clearCurrentUser() {
+function clearCurrentUser(emitEvent = false) {
     for (let key in currentUser) {
         if (!currentUser.hasOwnProperty(key)) continue;
         delete currentUser[key];
     }
+    if (emitEvent) messages.send('user.changed');
 }
 
 function rewriteCurrentUser(data) {
@@ -30,6 +32,7 @@ function rewriteCurrentUser(data) {
         currentUser[key] = data.user[key];
     }
     currentUser.certificate = data.certificate;
+    messages.send('user.changed', currentUser);
 }
 
 async function getCurrentUser() {
@@ -65,7 +68,7 @@ async function logout() {
         method: 'GET'
     });
     clearCertificate();
-    clearCurrentUser();
+    clearCurrentUser(true);
     return rData;
 }
 
