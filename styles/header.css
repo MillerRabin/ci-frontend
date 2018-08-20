@@ -1,19 +1,14 @@
+#Header {
+    padding: 4rem 8rem 4rem 8rem;
+}
+
 #Header .top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 10rem;
-    margin-left: 3rem;
 }
 
 #Header .top a {
     text-decoration: none;
     color: inherit;
-}
-
-#Header .breadcrumbs {
-    background-color: #fddd2f;
-    padding-bottom: 3rem;
-    padding-top: 3rem;
-    text-align: center;
 }

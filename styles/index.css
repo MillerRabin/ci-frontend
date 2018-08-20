@@ -11,6 +11,13 @@ body {
     margin: 0;
     font-size: 14px;
     color: #e0e0e0;
+    background-color: #545454;
+    font-family: Roboto, sans-serif;
+
+}
+
+input {
+    outline: 1px solid transparent;
 }
 
 .hover {
@@ -22,7 +29,7 @@ body {
 }
 
 .focus {
-
+    outline: 1px solid transparent;
 }
 
 .focus:focus {
@@ -39,9 +46,7 @@ body {
 }
 
 #CI {
-    background-color: #545454;
-    font-family: Roboto, sans-serif;
-    color: #e0e0e0;
+
 }
 
 #Center {
@@ -82,7 +87,7 @@ button {
 
 .panel-button {
     border: none;
-    font-size: 1.389vw;
+    font-size: inherit;
     text-align: left;
     color: #e0e0e0;
     margin: 0.5rem 0 0.5rem 0;

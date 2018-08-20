@@ -1,6 +1,6 @@
 .Auth .panel {
-    margin-right: 10vw;
-    font-size: 1.5rem;
+    font-size: 2rem;
+    margin-right: 4rem;
 }
 
 .Auth .form {
@@ -93,7 +93,6 @@
     border-left: none;
     border-right: none;
     border-bottom: 0.069vw solid #545454;
-    outline: none;
 }
 
 .Auth .form input[type="checkbox"] {
@@ -118,12 +117,12 @@
     outline: none;
 }
 
-.Auth .info .menu{
+.Auth .info .menu {
     position: absolute;
     z-index: 2;
     width: 19vw;
-    top: 2.11vw;
-    right: 5.51vw;
+    top: 1.85vw;
+    right: 3.95vw;
     background-color: #545454;
     box-shadow: 0 0.139vw 0.278vw 0 rgba(0, 0, 0, 0.5);
     border-radius: 0.139vw;
@@ -135,9 +134,10 @@
 }
 
 .Auth .info .menu .item {
-    padding: 1rem;
+    padding: 2rem;
     display: block;
     width: 100%;
+    text-align: left;
 }
 
 .Auth .info .menu .item:hover {

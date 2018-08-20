@@ -78,15 +78,23 @@ loader.application('auth', [async () => {
                 });
             },
             login: async function () {
-                await raintechAuth.login({
-                    loginOrEmail: this.email,
-                    password: this.password
-                });
-                this.closeDialog();
+                try {
+                    await raintechAuth.login({
+                        loginOrEmail: this.email,
+                        password: this.password
+                    });
+                    this.closeDialog();
+                } catch (e) {
+                    this.errors = e;
+                }
             },
             logout: async function () {
                 await raintechAuth.logout();
                 this.showProfile = false;
+            },
+            setTab: function (index) {
+                this.tab = index;
+                this.errors = {};
             }
         },
         mounted: async function () {
