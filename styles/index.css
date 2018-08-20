@@ -137,3 +137,7 @@ button {
 .orange {
     color: #ff603d;
 }
+
+.hide {
+    display: none;
+}

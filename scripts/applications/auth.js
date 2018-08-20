@@ -24,7 +24,8 @@ loader.application('auth', [async () => {
             agree: true,
             currentUser: getUser(),
             loaded: false,
-            showProfile: false
+            showProfile: false,
+            message: null
         }
     }
 
@@ -65,8 +66,10 @@ loader.application('auth', [async () => {
             restore: async function () {
                 this.errors = {};
                 try {
-                    await raintechAuth.restore({ email: this.email });
+                    const rData = await raintechAuth.restore({ email: this.email });
+                    this.message = rData.message;
                 } catch (e) {
+                    this.message = null;
                     this.errors = e;
                 }
 

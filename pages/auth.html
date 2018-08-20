@@ -34,6 +34,7 @@
                 <input type="password" v-model="password" placeholder="Password" tabindex="2" v-on:keypress.13="login"/>
                 <span v-show="errors.password" v-text="errors.password"></span>
             </label>
+            <div class="message" v-text="message" v-if="message != null"></div>
             <button class="remember focus" v-on:click="restore" tabindex="4">Don`t remember your password</button>
             <button class="submit focus" tabindex="3" v-on:click="login">Log In</button>
         </div>

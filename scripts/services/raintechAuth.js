@@ -36,7 +36,7 @@ function rewriteCurrentUser(data) {
 }
 
 async function getCurrentUser() {
-    if (currentUser.certificate != null) return currentUser.certificate;
+    if (currentUser.certificate != null) return currentUser;
     const search = location.getSearch();
     const cert = (safe.isEmpty(search.cert)) ? window.localStorage['raintech-auth'] : search.cert;
     if (cert == null) {
@@ -100,7 +100,8 @@ async function restore(data) {
 async function update(data) {
     const sData = Object.assign(data);
     sData.referer = config.referer;
-    sData.certificate = getCertificate();
+    const user = await getCurrentUser();
+    sData.certificate = user.certificate;
     return await loader.json(config.authPath + '/api/users', {
         method: 'PUT',
         data: sData
