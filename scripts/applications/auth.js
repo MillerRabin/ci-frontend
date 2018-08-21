@@ -5,7 +5,8 @@ import raintechAuth from '/scripts/services/raintechAuth.js'
 loader.application('auth', [async () => {
     function getUser() {
         if (raintechAuth.currentUser.certificate == null) return null;
-        const fullName = raintechAuth.currentUser.login;
+        let fullName = raintechAuth.currentUser.login;
+        fullName = (fullName == null) ? raintechAuth.currentUser.email : fullName;
         return {
             fullName: fullName
         }
@@ -25,7 +26,9 @@ loader.application('auth', [async () => {
             currentUser: getUser(),
             loaded: false,
             showProfile: false,
-            message: null
+            message: null,
+            disabled: false,
+            rememberLinkSent: false
         }
     }
 
@@ -65,35 +68,56 @@ loader.application('auth', [async () => {
             },
             restore: async function () {
                 this.errors = {};
+                this.disabled = true;
                 try {
                     const rData = await raintechAuth.restore({ email: this.email });
                     this.message = rData.message;
+                    this.disabled = false;
+                    this.rememberLinkSent = true;
                 } catch (e) {
                     this.message = null;
                     this.errors = e;
+                    this.disabled = false;
                 }
 
             },
-            signup: function () {
-                return raintechAuth.signup({
-                    email: this.email,
-                    password: this.newPassword
-                });
+            signup: async function () {
+                this.disabled = true;
+                try {
+                    this.errors = {};
+                    if (this.newPassword == '') throw new raintechAuth.Exception({ newPassword: 'The password is empty' });
+                    if (this.confirmPassword != this.newPassword) throw new raintechAuth.Exception({ confirmPassword: 'The passwords does not match' });
+                    if (!this.agree) throw new raintechAuth.Exception({ confirmPassword: 'Agree with terms of service or leave' });
+                    await raintechAuth.signup({
+                        email: this.email,
+                        newPassword: this.newPassword
+                    });
+                    this.disabled = false;
+                    this.closeDialog();
+                } catch (e) {
+                    this.errors = e;
+                    this.disabled = false;
+                }
             },
             login: async function () {
                 try {
+                    this.disabled = true;
                     await raintechAuth.login({
                         loginOrEmail: this.email,
                         password: this.password
                     });
+                    this.disabled = false;
                     this.closeDialog();
                 } catch (e) {
+                    this.disabled = false;
                     this.errors = e;
                 }
             },
             logout: async function () {
+                this.disabled = true;
                 await raintechAuth.logout();
                 this.showProfile = false;
+                this.disabled = false;
             },
             setTab: function (index) {
                 this.tab = index;

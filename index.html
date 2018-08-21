@@ -1,11 +1,18 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"><meta property="og:title" content="Rain Technologies Continuous Integration"><meta name="author" content="Millerrabin"><base href="/"><link rel="icon" type="image/png" href="/favicon_s.png" sizes="64x64"><link rel="icon" type="image/png" href="/favicon.png" sizes="152x152"><meta name="ROBOTS" content="INDEX, FOLLOW"><title>Raintech Continuous Integration.</title><meta name="description" content="Home"><meta name="Keywords" content="Raintech Continuous Integration"><link href="/styles/auth.css" rel="stylesheet"><link href="/styles/changePassword.css" rel="stylesheet"><link href="/styles/ci.css" rel="stylesheet"><link href="/styles/fonts.css" rel="stylesheet"><link href="/styles/footer.css" rel="stylesheet"><link href="/styles/header.css" rel="stylesheet"><link href="/styles/index.css" rel="stylesheet"><script src="/node_modules/vue/dist/vue.min.js"></script><script src="/node_modules/vue-router/dist/vue-router.min.js"></script><script src="/scripts/main.js" type="module"></script></head><body><div id="CI"><div id="Header_Container"><header id="Header">
     <div class="top">
-        <a href="/" class="focus">
-            <h1 class="logo">Raintech CI</h1>
-        </a>
+        <nav>
+            <a href="/" class="focus">
+                <h1 class="logo">Raintech CI</h1>
+            </a>
+            <ul>
+                <li>
+                    <router-link to="/">Home</router-link>
+                </li>
+            </ul>
+        </nav>
         <div class="auth_container" is="auth"></div>
     </div>
-</header></div><div id="Center"><div id="Router" is="router-view"><div is="frontpage" inline-template><div>Frontpage Test</div></div></div></div><div id="Footer_Container"><footer id="Footer">
+</header></div><div id="Center"><div id="Router" is="router-view"><div is="frontpage" inline-template><div></div></div></div></div><div id="Footer_Container"><footer id="Footer">
     <div class="copyrights">
         <div class="item copy">© 2018 Копирование информации с сайта возможно только с письменного согласия автора</div>
         <div class="item back">

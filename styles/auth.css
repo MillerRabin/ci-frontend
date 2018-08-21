@@ -1,6 +1,7 @@
 .Auth .panel {
     font-size: 2rem;
     margin-right: 4rem;
+    position: relative;
 }
 
 .Auth .form {
@@ -113,6 +114,10 @@
     margin: 1.389vw 0 0 0;
 }
 
+.Auth .tab-content button.remember:hover {
+    text-decoration: underline;
+}
+
 .Auth .info {
     outline: none;
 }
@@ -120,9 +125,9 @@
 .Auth .info .menu {
     position: absolute;
     z-index: 2;
-    width: 19vw;
-    top: 1.85vw;
-    right: 3.95vw;
+    width: calc(100% + 4rem);
+    top: -1.35vw;
+    right: -1.35vw;
     background-color: #545454;
     box-shadow: 0 0.139vw 0.278vw 0 rgba(0, 0, 0, 0.5);
     border-radius: 0.139vw;
@@ -138,6 +143,7 @@
     display: block;
     width: 100%;
     text-align: left;
+    white-space: nowrap;
 }
 
 .Auth .info .menu .item:hover {

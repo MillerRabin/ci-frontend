@@ -43,7 +43,7 @@ async function getCurrentUser() {
         clearCurrentUser();
         return;
     }
-    await login({ certificate: cert});
+    await checkCertificate({ certificate: cert });
     return currentUser;
 }
 
@@ -63,6 +63,18 @@ async function login(data) {
     return rData;
 }
 
+async function checkCertificate(data) {
+    const sData = Object.assign(data);
+    sData.referer = config.referer;
+    const rData = await loader.json(config.authPath + '/api/users/login/bycert', {
+        method: 'POST',
+        data: sData
+    });
+    saveCertificate(rData.certificate);
+    rewriteCurrentUser(rData);
+    return rData;
+}
+
 async function logout() {
     const rData = await loader.json(config.authPath + '/api/users/logout', {
         method: 'GET'
@@ -73,6 +85,7 @@ async function logout() {
 }
 
 async function signup(data) {
+    if (safe.isEmpty(data.newPassword)) throw new RaintechAuthException({ newPassword: 'password is empty' });
     const sData = Object.assign(data);
     sData.referer = config.referer;
     const rData =  await loader.json(config.authPath + '/api/users/signup/bypassword', {
@@ -85,7 +98,7 @@ async function signup(data) {
 }
 
 async function restore(data) {
-    if (safe.isEmpty(data.email)) throw { email: 'Please, specify your email' };
+    if (safe.isEmpty(data.email)) throw new RaintechAuthException({ email: 'Please, specify your email' });
     const sData = Object.assign(data);
     sData.referer = config.referer;
     const rData = await loader.json(config.authPath + '/api/users/changepassword/byemail', {
@@ -121,5 +134,6 @@ export default {
     restore: restore,
     check: check,
     update: update,
-    currentUser: currentUser
+    currentUser: currentUser,
+    Exception: RaintechAuthException
 };

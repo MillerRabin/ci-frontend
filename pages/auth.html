@@ -15,48 +15,52 @@
                 <span class="orange">My profile /</span>
                 <span v-text="currentUser.fullName"></span>
             </span>
-            <button class="item" tabindex="11" v-on:click="logout">Logout</button>
+            <button class="item" tabindex="11" v-on:click="logout" v-bind:disabled="disabled">Logout</button>
         </span>
     </button>
     <dialog class="form" v-on:keyup.escape="closeDialog">
         <button class="close focus" title="close" v-on:click="closeDialog"></button>
         <div class="tabs">
-            <button class="tab focus" v-bind:class="{ active: tab == 0 }" v-on:click="setTab(0)" tabindex="5">Log In</button>
-            <button class="tab focus" v-bind:class="{ active: tab == 1 }" v-on:click="setTab(1)" tabindex="6">Sign Up</button>
+            <button class="tab focus" v-bind:class="{ active: tab == 0 }" v-on:click="setTab(0)" tabindex="5" v-bind:disabled="disabled">Log In</button>
+            <button class="tab focus" v-bind:class="{ active: tab == 1 }" v-on:click="setTab(1)" tabindex="6" v-bind:disabled="disabled">Sign Up</button>
         </div>
         <div class="login tab-content" v-show="tab == 0">
             <label>
-                <input autofocus type="text" v-model="email" placeholder="E-mail" tabindex="1"/>
+                <input autofocus type="text" v-model="email" placeholder="E-mail" tabindex="1" v-bind:disabled="disabled"/>
                 <span class="error" v-show="errors.login" v-text="errors.login"></span>
                 <span class="error" v-show="errors.email" v-text="errors.email"></span>
+                <span class="error" v-show="errors.text" v-text="errors.text"></span>
             </label>
             <label>
-                <input type="password" v-model="password" placeholder="Password" tabindex="2" v-on:keypress.13="login"/>
+                <input type="password" v-model="password" placeholder="Password" tabindex="2" v-on:keypress.13="login" v-bind:disabled="disabled"/>
                 <span v-show="errors.password" v-text="errors.password"></span>
             </label>
             <div class="message" v-text="message" v-if="message != null"></div>
-            <button class="remember focus" v-on:click="restore" tabindex="4">Don`t remember your password</button>
-            <button class="submit focus" tabindex="3" v-on:click="login">Log In</button>
+            <button class="remember focus" v-on:click="restore" tabindex="4" v-bind:disabled="disabled"
+                     v-text="(rememberLinkSent) ? 'Send link again' : 'Don`t remember your password'"></button>
+            <button class="submit focus" tabindex="3" v-on:click="login" v-bind:disabled="disabled">Log In</button>
         </div>
         <div class="signup tab-content" v-show="tab == 1">
             <label>
-                <input autofocus type="text" v-model="email" placeholder="E-mail" tabindex="7"/>
+                <input autofocus type="text" v-model="email" placeholder="E-mail" tabindex="7" v-bind:disabled="disabled"/>
                 <span class="error" v-show="errors.email" v-text="errors.email"></span>
+                <span class="error" v-show="errors.login" v-text="errors.login"></span>
+                <span class="error" v-show="errors.text" v-text="errors.text"></span>
             </label>
             <label>
-                <input type="password" v-model="newPassword" placeholder="New password" tabindex="8"/>
-                <span class="error" v-show="errors.password" v-text="errors.newPassword"></span>
+                <input type="password" v-model="newPassword" placeholder="New password" tabindex="8" v-bind:disabled="disabled"/>
+                <span class="error" v-show="errors.newPassword" v-text="errors.newPassword"></span>
             </label>
             <label>
-                <input type="password" v-model="confirmPassword" placeholder="Confirm password" tabindex="9"/>
-                <span class="error" v-show="errors.password" v-text="errors.confirmPassword"></span>
+                <input type="password" v-model="confirmPassword" placeholder="Confirm password" tabindex="9" v-bind:disabled="disabled"/>
+                <span class="error" v-show="errors.confirmPassword" v-text="errors.confirmPassword"></span>
             </label>
             <label>
-                <input class="focus" type="checkbox" v-model="agree" tabindex="10"/>
+                <input class="focus" type="checkbox" v-model="agree" tabindex="10" v-bind:disabled="disabled"/>
                 <span>By signing up, you agree to terms of service and privacy policy</span>
                 <span class="error" v-show="errors.password" v-text="errors.confirmPassword"></span>
             </label>
-            <button class="submit focus" tabindex="11" v-on:click="signup">Sign Up</button>
+            <button class="submit focus" tabindex="11" v-on:click="signup" v-bind:disabled="disabled">Sign Up</button>
         </div>
     </dialog>
 </div>

@@ -3,7 +3,7 @@
 }
 
 html {
-    font-size: 14px;
+    font-size: 0.684vw;
 }
 
 body {
@@ -134,10 +134,23 @@ button {
     font-size: 1.2rem;
 }
 
+.message.show {
+    display: block;
+}
+
 .orange {
     color: #ff603d;
 }
 
 .hide {
     display: none;
+}
+
+button[disabled] {
+    color: #ccc !important;
+}
+
+button[disabled]:hover {
+    background-color: transparent;
+    text-decoration: none !important;
 }

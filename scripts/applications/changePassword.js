@@ -47,6 +47,7 @@ loader.application('changePassword', [async () => {
                     await raintechAuth.update({ newPassword: this.newPassword, confirmPassword: this.confirmPassword });
                     this.disabled = false;
                     this.changed = true;
+                    await raintechAuth.login({ email: raintechAuth.currentUser.email, password: this.newPassword})
                 } catch (e) {
                     this.errors = e;
                     this.disabled = false;

@@ -1,5 +1,6 @@
 #Header {
     padding: 4rem 8rem 4rem 8rem;
+    font-size: 2rem;
 }
 
 #Header .top {
@@ -11,4 +12,24 @@
 #Header .top a {
     text-decoration: none;
     color: inherit;
+}
+
+#Header nav {
+    display: flex;
+    align-items: center;
+}
+
+#Header nav ul {
+    list-style: none;
+    margin: 0 0 0 16rem;
+    padding: 0;
+}
+
+#Header nav ul li {
+    border-left: 0.139vw solid transparent;
+    padding-left: 0.694vw;
+}
+
+#Header nav ul li:hover {
+    border-left: 0.139vw solid rgb(255, 96, 61);
 }
