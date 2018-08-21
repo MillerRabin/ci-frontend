@@ -1,5 +1,7 @@
 import loader from '/scripts/loader.js';
-loader.application('frontpage', [async () => {
+import '/scripts/applications/projectList.js';
+
+loader.application('frontpage', ['projectList', async () => {
     await loader.createVueTemplate({ path: '/pages/frontpage.html', id: 'FrontPage-Template' });
     const data =  {};
     const res = {};
