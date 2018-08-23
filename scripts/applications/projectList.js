@@ -2,8 +2,10 @@ import loader from '/scripts/loader.js';
 import projects from '/scripts/services/projects.js';
 
 loader.application('projectList', [async () => {
-    function init() {
-        return {}
+    function init(projects = []) {
+        return {
+            projects: projects
+        }
     }
 
     try {
