@@ -1,0 +1,12 @@
+.ProjectList .project {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+    padding: 1.389vw 0 1.389vw 2.431vw;
+}
+
+.ProjectList .project.active {
+    background-color: #fff;
+    color: black;
+}

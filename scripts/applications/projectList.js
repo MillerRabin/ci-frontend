@@ -6,7 +6,8 @@ loader.application('projectList', [async () => {
     function init(obj) {
         return {
             projects: obj.projects,
-            errors: obj.errors
+            errors: obj.errors,
+            active: 1
         }
     }
 

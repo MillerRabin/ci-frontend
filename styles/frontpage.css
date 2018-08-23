@@ -1,0 +1,35 @@
+.Frontpage {
+    padding: 0 8rem;
+    display: flex;
+    align-items: stretch;
+}
+
+.Frontpage .projects {
+    width: 18%;
+    position: relative;
+    z-index: 2;
+}
+
+.Frontpage .info {
+    border-top-left-radius: 0.139vw;
+    border-bottom-left-radius: 0.139vw;
+    background-color: #ffffff;
+    box-shadow: 0 0.07vw 0.278vw 0 rgba(0, 0, 0, 0.5);
+    width: 78%;
+    padding-right: 3.472vw;
+    padding-left: 3.472vw;
+    box-sizing: border-box;
+    display: flex;
+    position: relative;
+    z-index: 1;
+    left: -0.139vw;
+
+}
+
+.Frontpage .configs {
+    width: 80%
+}
+
+.Frontpage .logs {
+    width: 20%
+}

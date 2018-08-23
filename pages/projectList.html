@@ -1,7 +1,7 @@
 <div class="ProjectList">
     <nav>
         <div class="error" v-if="(errors!= null) && (errors.message != null)" v-text="errors.message"></div>
-        <router-link to="/" v-for="project in projects" v-if="errors == null">
+        <router-link v-if="errors == null" v-for="(project, index) in projects" class="project" v-bind:class="{ active: active == index }" to="/" >
             <span v-text="project.project_name"></span>
         </router-link>
     </nav>
