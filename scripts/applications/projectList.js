@@ -1,27 +1,39 @@
 import loader from '/scripts/loader.js';
 import projects from '/scripts/services/projects.js';
+import messages from '/scripts/services/messages.js';
 
 loader.application('projectList', [async () => {
-    function init(projects = []) {
+    function init(obj) {
         return {
-            projects: projects
+            projects: obj.projects,
+            errors: obj.errors
         }
     }
 
-    try {
-        const prj = await projects.get();
-        console.log(prj);
-    } catch (e) {
-        console.log(e);
+    async function get(vm) {
+        try {
+            vm.projects = await projects.get();
+            vm.errors = null;
+        } catch (e) {
+            vm.projects = null;
+            vm.errors = e;
+        }
     }
 
+    const initObj = {};
+    await get(initObj);
 
     await loader.createVueTemplate({ path: '/pages/projectList.html', id: 'ProjectList-Template' });
     const res = {};
     res.Constructor = Vue.component('projectList', {
         template: '#ProjectList-Template',
         data: function () {
-            return init();
+            return init(initObj);
+        },
+        mounted: function () {
+            messages.on('user.changed', () => {
+                get(this);
+            })
         }
     });
     return res;

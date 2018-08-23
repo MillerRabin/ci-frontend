@@ -123,7 +123,7 @@ async function update(data) {
 
 async function check() {
     const cert = await getCurrentUser();
-    if (cert == null) throw new RaintechAuthException({ text: 'User is not authorized'});
+    if (cert == null) throw new RaintechAuthException({ message: 'User is not authorized'});
     return cert;
 }
 

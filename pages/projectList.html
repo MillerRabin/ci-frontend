@@ -1,3 +1,8 @@
 <div class="ProjectList">
-
+    <nav>
+        <div class="error" v-if="(errors!= null) && (errors.message != null)" v-text="errors.message"></div>
+        <router-link to="/" v-for="project in projects" v-if="errors == null">
+            <span v-text="project.project_name"></span>
+        </router-link>
+    </nav>
 </div>

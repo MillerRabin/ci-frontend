@@ -14,10 +14,7 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/raintechteam/ci-frontend#readme",
   "dependencies": {
-    "dom-parser": "^0.1.5",
     "moment": "^2.22.2",
-    "recursive-readdir": "^2.2.2",
-    "uglifycss": "0.0.29",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1"
   }

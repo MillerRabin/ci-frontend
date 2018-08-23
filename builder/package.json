@@ -9,6 +9,8 @@
   "author": "millerrabin",
   "license": "ISC",
   "dependencies": {
-    "pug": "^2.0.3"
+    "pug": "^2.0.3",
+    "recursive-readdir": "^2.2.2",
+    "uglifycss": "0.0.29"
   }
 }
