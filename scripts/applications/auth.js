@@ -129,7 +129,11 @@ loader.application('auth', [async () => {
             try {
                 await raintechAuth.check();
                 this.currentUser = getUser();
-            } catch (e) {}
+            } catch (e) {
+                if (e.code == 'CertExpired') {
+                    this.loginDialog();
+                }
+            }
             this.loaded = true;
 
             messages.on('user.changed', () => {

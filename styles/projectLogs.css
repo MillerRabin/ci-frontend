@@ -1,0 +1,88 @@
+.ProjectLogs {
+    padding: 1rem 0 1rem 1rem;
+    overflow: hidden;
+}
+
+.ProjectLogs .logTable {
+    max-height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+    height: 100%;
+    display: block;
+    table-layout: fixed;
+}
+
+
+.ProjectLogs .logTable .row {
+
+}
+
+.ProjectLogs .logTable .entry {
+
+}
+
+.ProjectLogs .logTable .column {
+    padding: 0 0.25rem 0 0.25rem;
+
+}
+
+.ProjectLogs .logTable .header {
+    padding: 0 0.25rem 0 0.25rem;
+    font-weight: bold;
+
+}
+
+.ProjectLogs .logTable .time {
+    width: 2%;
+}
+
+.ProjectLogs .logTable .name {
+    width: 1%
+}
+
+.ProjectLogs .logTable .branch {
+    width: 1%
+}
+
+.ProjectLogs .logTable .command {
+    width: 1%;
+}
+
+.ProjectLogs .logTable .command button {
+    text-transform: capitalize;
+}
+
+.ProjectLogs .logTable .data {
+    display: none;
+}
+
+.ProjectLogs .logTable .data > td {
+    padding: 0 0 0.5rem 1rem;
+}
+
+.ProjectLogs .logTable .data.show {
+    display: table-row;
+}
+
+.ProjectLogs .cmdTable {
+    width: 100%;
+}
+
+.ProjectLogs .cmdTable tbody tr td:nth-child(1) {
+    width: 3%;
+    text-align: center;
+}
+
+.ProjectLogs .cmdTable tbody tr td:nth-child(2) {
+    width: 15%;
+}
+
+.ProjectLogs .cmdTable tbody tr td:nth-child(3) {
+    width: 20%;
+}
+
+.ProjectLogs .cmdTable tbody tr td:nth-child(4) {
+    width: 30%;
+}
+

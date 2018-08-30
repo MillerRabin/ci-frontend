@@ -7,7 +7,7 @@ loader.application('projectList', [async () => {
         return {
             projects: obj.projects,
             errors: obj.errors,
-            active: 1
+            active: null
         }
     }
 

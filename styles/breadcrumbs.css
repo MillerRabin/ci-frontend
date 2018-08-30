@@ -1,0 +1,8 @@
+.Breadcrumbs {
+    display: flex;
+    margin: 0 8rem 0.5rem 8rem;
+}
+
+.Breadcrumbs .sep {
+    margin: 0 0.5rem 0 0.5rem;
+}

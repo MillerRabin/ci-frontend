@@ -1,9 +1,21 @@
+.ProjectList nav {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+}
+
 .ProjectList .project {
     display: block;
     text-decoration: none;
     color: inherit;
-    width: 100%;
     padding: 1.389vw 0 1.389vw 2.431vw;
+    border: 1px solid #fff;
+    border-radius: 0.7rem;
+    margin: 0.5rem 0.2rem 0 0.5rem;
+}
+
+.ProjectList .project:first-child {
+    margin-top: 0;
 }
 
 .ProjectList .project.active {

@@ -50,7 +50,8 @@ input {
 }
 
 #Center {
-    min-height: 32vw;
+    height: 34.3vw;
+    overflow: hidden;
 }
 
 h1 {
@@ -153,4 +154,8 @@ button[disabled] {
 button[disabled]:hover {
     background-color: transparent;
     text-decoration: none !important;
+}
+
+.transition {
+    transition: all 1s ease 0s
 }

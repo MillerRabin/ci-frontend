@@ -64,7 +64,7 @@ async function login(data) {
 }
 
 async function checkCertificate(data) {
-    const sData = Object.assign(data);
+    const sData = Object.assign({}, data);
     sData.referer = config.referer;
     const rData = await loader.json(config.authPath + '/api/users/login/bycert', {
         method: 'POST',

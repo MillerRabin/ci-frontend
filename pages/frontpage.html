@@ -1,7 +1,9 @@
 <div class="Frontpage">
-    <nav class="projects" is="projectList"></nav>
-    <div class="info">
-        <div class="configs" is="projectConfigs"></div>
-        <div class="logs" is="projectLogs"></div>
+    <div is="breadcrumbs"></div>
+    <div is="search"></div>
+    <div class="content">
+        <nav class="projects"  is="projectList"></nav>
+        <div class="configs" v-bind:class="{ show: showConfigs }" is="projectConfigs"></div>
+        <div class="logs" v-bind:class="{ fullLength: !showConfigs }" is="projectLogs"></div>
     </div>
 </div>

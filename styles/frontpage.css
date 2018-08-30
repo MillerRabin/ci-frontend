@@ -1,35 +1,39 @@
 .Frontpage {
-    padding: 0 8rem;
+    height: 100%;
+}
+
+.Frontpage .content {
+    padding: 0 8rem 2rem 8rem;
     display: flex;
     align-items: stretch;
+    justify-content: space-between;
+    height: calc(100% - 2rem);
 }
 
-.Frontpage .projects {
+.Frontpage .content .projects {
     width: 18%;
-    position: relative;
-    z-index: 2;
+    height: 100%;
 }
 
-.Frontpage .info {
-    border-top-left-radius: 0.139vw;
-    border-bottom-left-radius: 0.139vw;
-    background-color: #ffffff;
-    box-shadow: 0 0.07vw 0.278vw 0 rgba(0, 0, 0, 0.5);
-    width: 78%;
-    padding-right: 3.472vw;
-    padding-left: 3.472vw;
-    box-sizing: border-box;
-    display: flex;
-    position: relative;
-    z-index: 1;
-    left: -0.139vw;
-
+.Frontpage .content .configs {
+    width: 0;
+    overflow: hidden;
 }
 
-.Frontpage .configs {
-    width: 80%
+.Frontpage .content .configs.show {
+    border-radius: 0.139vw;
+    border: 1px solid #fff;
+    width: 51.5%;
 }
 
-.Frontpage .logs {
-    width: 20%
+.Frontpage .content .logs {
+    width: 30%;
+    border-radius: 0.139vw;
+    border: 1px solid #fff;
+}
+
+.Frontpage .content .logs.fullLength {
+    width: 81.5%;
+    border-radius: 0.139vw;
+    border: 1px solid #fff;
 }

@@ -1,1 +1,73 @@
-<div>Project Logs test</div>
+<div class="ProjectLogs">
+    <table class="logTable">
+        <thead>
+            <tr>
+                <td class="time header">Time</td>
+                <td class="name header">Project name</td>
+                <td class="branch header">Branch</td>
+            </tr>
+        </thead>
+        <tbody class="entry" v-for="log in logs" v-bind:class="{ error: hasError(log) }">
+            <tr class="row">
+                <td class="time column" v-text="log.event_time.format('hh:mm:ss DD MMM YYYY')"></td>
+                <td class="name column" v-text="log.event_data.repository.project.name"></td>
+                <td class="branch column" v-text="getBranch(log)"></td>
+                <td class="column command">
+                    <button v-on:click="showCommits(log)">Commits</button>
+                </td>
+                <td v-if="log.error != null" class="column command">
+                    <button v-on:click="showError(log)"></button>
+                </td>
+                <td class="column command" v-for="command in getCommands(log)">
+                    <button v-if="command.message == null" v-text="command.text" v-on:click="execCommand(log, command)"></button>
+                    <span v-if="command.message != null" v-text="command.message"></span>
+                </td>
+            </tr>
+            <tr class="data" v-bind:class="{ show: log.showData }">
+                <td colspan="7" v-if="(log.currentCommand != null) && (log.currentCommand.text == 'text')" v-text="log.currentCommand.entry"></td>
+                <td colspan="7" v-if="(log.currentCommand != null) && ((log.currentCommand.text == 'deploy')||(log.currentCommand.text == 'test'))">
+                    <div>
+                        <span>Success:</span>
+                        <span v-text="log.currentCommand.entry.success ? 'true' : 'false'"></span>
+                    </div>
+                    <table class="cmdTable">
+                        <thead>
+                            <tr>
+                                <th>code</th>
+                                <th>command</th>
+                                <th>cwd</th>
+                                <th>stdout</th>
+                                <th>stderr</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="shell in log.currentCommand.entry.results">
+                                <td v-text="shell.code"></td>
+                                <td v-text="shell.command"></td>
+                                <td v-text="shell.cwd"></td>
+                                <td v-text="shell.stdout"></td>
+                                <td v-text="shell.stderr"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td colspan="7" v-if="(log.currentCommand != null) && (log.currentCommand.text == 'commits')">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Author</th>
+                                <th>Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="message in log.currentCommand.entry">
+                                <td v-text="message.author"></td>
+                                <td v-text="message.message"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
