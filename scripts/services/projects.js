@@ -2,13 +2,12 @@ import loader from '/scripts/loader.js'
 import raintechAuth from '/scripts/services/raintechAuth.js';
 import postgres from '/scripts/services/postgres.js';
 
-async function get() {
+async function get(data) {
     await raintechAuth.check();
+    const sData = Object.assign({ certificate: raintechAuth.currentUser.certificate }, data);
     const rData = await loader.json('/api/projects/get', {
         method: 'POST',
-        data: {
-            certificate: raintechAuth.currentUser.certificate
-        }
+        data: sData
     });
     return postgres.toArray(rData);
 }

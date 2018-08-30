@@ -1,8 +1,8 @@
 <div class="ProjectConfigs">
-    <div class="content">
+    <div class="content" v-if="current != null">
         <label>
             <span>Project name</span>
-            <input/>
+            <input v-model="current.project_name"/>
         </label>
         <label>
             <span>Deploy branch</span>
@@ -37,7 +37,7 @@
             <textarea></textarea>
         </label>
     </div>
-    <div class="buttons">
+    <div class="buttons" v-if="current != null">
         <button class="submit focus">Update</button>
         <button class="submit cancel focus">Cancel</button>
     </div>
