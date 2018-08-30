@@ -3,7 +3,7 @@
     <div is="search"></div>
     <div class="content">
         <nav class="projects"  is="projectList"></nav>
-        <div class="configs" v-bind:class="{ show: showConfigs }" is="projectConfigs"></div>
-        <div class="logs" v-bind:class="{ fullLength: !showConfigs }" is="projectLogs"></div>
+        <div class="configs transition" v-bind:class="{ show: showConfigs }" is="projectConfigs"></div>
+        <div class="logs transition" v-bind:class="{ fullLength: !showConfigs }" is="projectLogs"></div>
     </div>
 </div>

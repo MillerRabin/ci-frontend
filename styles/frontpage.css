@@ -2,7 +2,7 @@
     height: 100%;
 }
 
-.Frontpage .content {
+.Frontpage > .content {
     padding: 0 8rem 2rem 8rem;
     display: flex;
     align-items: stretch;
@@ -18,12 +18,14 @@
 .Frontpage .content .configs {
     width: 0;
     overflow: hidden;
+    border: 1px solid #fff;
+    padding: 0;
 }
 
 .Frontpage .content .configs.show {
     border-radius: 0.139vw;
-    border: 1px solid #fff;
     width: 51.5%;
+    padding: 1rem;
 }
 
 .Frontpage .content .logs {

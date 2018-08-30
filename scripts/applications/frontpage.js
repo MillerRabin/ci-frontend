@@ -23,6 +23,11 @@ loader.application('frontpage', ['projectList', 'projectConfigs', 'projectLogs',
     res.Constructor = Vue.component('frontpage', {
         template: '#FrontPage-Template',
         data: init,
+        watch:{
+            $route (to){
+                showConfigs(this);
+            }
+        },
         mounted: function () {
             showConfigs(this);
         }
