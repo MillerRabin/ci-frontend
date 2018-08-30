@@ -8,35 +8,37 @@
             <span>Deploy branch</span>
             <input/>
         </label>
-        <label>
+        <label class="full">
             <span>Server credentials</span>
-            <taxtarea></taxtarea>
+            <textarea></textarea>
         </label>
-        <label>
+        <label class="full">
             <span>Server project directory</span>
             <input/>
         </label>
         <label>
             <span>Test commands</span>
-            <span>The commands to check the project exists on the server</span>
-            <taxtarea></taxtarea>
+            <span class="hint">The commands to check the project exists on the server</span>
+            <textarea></textarea>
         </label>
         <label>
             <span>Init commands</span>
-            <span>Executed when the project not exists on the server</span>
-            <taxtarea></taxtarea>
+            <span class="hint">Executed when the project not exists on the server</span>
+            <textarea></textarea>
         </label>
         <label>
             <span>Deploy commands</span>
-            <span>Executed when the project should be updated on the server</span>
-            <taxtarea></taxtarea>
+            <span class="hint">Executed when the project should be updated on the server</span>
+            <textarea></textarea>
         </label>
         <label>
             <span>Reload commands</span>
-            <span>The commands to reaload after succcessfull update if needed</span>
-            <taxtarea></taxtarea>
+            <span class="hint">The commands to reaload after succcessfull update if needed</span>
+            <textarea></textarea>
         </label>
-        <button>Update</button>
-        <button>Cancel</button>
+    </div>
+    <div class="buttons">
+        <button class="submit focus">Update</button>
+        <button class="submit cancel focus">Cancel</button>
     </div>
 </div>

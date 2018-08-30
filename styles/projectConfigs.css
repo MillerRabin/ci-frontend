@@ -1,3 +1,61 @@
-.ProjectConfigs {
+.ProjectConfigs .content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
 
+.ProjectConfigs .content label {
+    display: block;
+    width: 48%;
+    margin-bottom: 1rem;
+}
+
+.ProjectConfigs .content label.full {
+    width: 100%;
+}
+
+.ProjectConfigs .content label span {
+    display: block;
+}
+
+.ProjectConfigs .content label span.hint {
+    font-style: italic;
+    color: #cccccc;
+    font-size: 0.7rem;
+}
+
+
+.ProjectConfigs .content label textarea {
+    display: block;
+    width: 100%;
+    min-height: 5vw;
+}
+
+.ProjectConfigs .content label input {
+    display: block;
+    width: 100%;
+}
+
+.ProjectConfigs .buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    margin: 0 4rem 0 4rem;
+}
+
+.ProjectConfigs .buttons .submit {
+    margin: 0;
+    font-size: 1.1rem;
+    height: auto;
+    width: 45%;
+    padding: 1rem;
+}
+
+.ProjectConfigs .buttons .submit.cancel {
+    color: white;
+    border: 1px solid white;
+}
+
+.ProjectConfigs .buttons .submit.cancel:hover {
+    background-color: rgba(255, 255, 255, 0.3);
 }
