@@ -7,7 +7,8 @@ loader.application('projectConfigs', [async () => {
         return {
             editorHash: editorHash,
             defaults: defaults,
-            active: null
+            active: null,
+            message: null
         }
     }
 
@@ -28,6 +29,11 @@ loader.application('projectConfigs', [async () => {
     const res = {};
     res.Constructor = Vue.component('projectConfigs', {
         template: '#ProjectConfigs-Template',
+        methods: {
+            update: async function () {
+                this.message = await projects.update(this.current);
+            }
+        },
         computed: {
             current: function () {
                 if (this.active == null) return null;
