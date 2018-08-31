@@ -8,7 +8,8 @@ loader.application('projectConfigs', [async () => {
             editorHash: editorHash,
             defaults: defaults,
             active: null,
-            message: null
+            message: null,
+            disabled: false
         }
     }
 
@@ -25,13 +26,22 @@ loader.application('projectConfigs', [async () => {
             Vue.set(vm.editorHash, cp.id, cp);
         vm.defaults[cp.id] = Object.assign({}, cp);
     }
+
     await loader.createVueTemplate({ path: '/pages/projectConfigs.html', id: 'ProjectConfigs-Template' });
     const res = {};
     res.Constructor = Vue.component('projectConfigs', {
         template: '#ProjectConfigs-Template',
         methods: {
             update: async function () {
-                this.message = await projects.update(this.current);
+                this.disabled = true;
+                try {
+                    this.message = await projects.update(this.current);
+                    this.disabled = false;
+                } catch (e) {
+                    console.log(e);
+                    this.disabled = false;
+                }
+
             }
         },
         computed: {

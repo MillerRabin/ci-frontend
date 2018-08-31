@@ -40,7 +40,7 @@
     display: flex;
     justify-content: space-between;
     width: 50%;
-    margin: 0 4rem 0 4rem;
+    margin: 1rem 4rem 0 4rem;
 }
 
 .ProjectConfigs .buttons .submit {

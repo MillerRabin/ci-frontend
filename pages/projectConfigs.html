@@ -2,48 +2,48 @@
     <div class="content" v-if="current != null">
         <label>
             <span>Project name</span>
-            <input v-model="current.project_name"/>
+            <input v-model="current.project_name" v-bind:disabled="disabled"/>
         </label>
         <label>
             <span>Deploy branch</span>
-            <input v-model="current.branch"/>
+            <input v-model="current.branch" v-bind:disabled="disabled"/>
         </label>
         <label class="full">
-            <span>Project repository</span>
-            <input v-model="current.repository"/>
+            <span>Project link</span>
+            <input v-model="current.repository" v-bind:disabled="disabled"/>
         </label>
         <label class="full">
             <span>Server credentials</span>
-            <textarea v-model="current.credentials"></textarea>
+            <textarea v-model="current.credentials" v-bind:disabled="disabled"></textarea>
         </label>
         <label class="full">
             <span>Server project directory</span>
-            <input v-model="current.project_directory"/>
+            <input v-model="current.project_directory" v-bind:disabled="disabled"/>
         </label>
         <label>
             <span>Test commands</span>
             <span class="hint">The commands to check the project exists on the server</span>
-            <textarea v-model="current.test"></textarea>
+            <textarea v-model="current.test" v-bind:disabled="disabled"></textarea>
         </label>
         <label>
             <span>Init commands</span>
             <span class="hint">Executed when the project not exists on the server</span>
-            <textarea v-model="current.init"></textarea>
+            <textarea v-model="current.init" v-bind:disabled="disabled"></textarea>
         </label>
         <label>
             <span>Deploy commands</span>
             <span class="hint">Executed when the project should be updated on the server</span>
-            <textarea v-model="current.deploy"></textarea>
+            <textarea v-model="current.deploy" v-bind:disabled="disabled"></textarea>
         </label>
         <label>
             <span>Reload commands</span>
             <span class="hint">The commands to reaload after succcessfull update if needed</span>
-            <textarea v-model="current.reload"></textarea>
+            <textarea v-model="current.reload" v-bind:disabled="disabled"></textarea>
         </label>
     </div>
     <div class="message" v-if="message != null" v-text="message"></div>
     <div class="buttons" v-if="current != null">
-        <button class="submit focus" v-on:click="update">Update</button>
-        <button class="submit cancel focus">Cancel</button>
+        <button class="submit focus" v-on:click="update" v-bind:disabled="disabled">Update</button>
+        <button class="submit cancel focus" v-bind:disabled="disabled">Cancel</button>
     </div>
 </div>
