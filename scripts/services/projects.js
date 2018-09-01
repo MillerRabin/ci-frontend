@@ -21,6 +21,31 @@ function objectFromString(str) {
     return obj;
 }
 
+function commandsToString(commands) {
+    const res = [];
+    for (let cmd of commands) {
+        if (typeof(cmd) == 'object') {
+            res.push(JSON.stringify(cmd));
+            continue;
+        }
+        res.push(cmd);
+    }
+    return res.join('\n');
+}
+
+function stringToCommands(str) {
+    const commands = str.split('\n');
+    const res = [];
+    for (let cmd of commands) {
+        try {
+            res.push(JSON.parse(cmd));
+        } catch (e) {
+            res.push(cmd);
+        }
+    }
+    return res;
+}
+
 async function get(data) {
     await raintechAuth.check();
     const sData = Object.assign({ certificate: raintechAuth.currentUser.certificate }, data);
@@ -29,10 +54,10 @@ async function get(data) {
         data: sData
     });
     return postgres.toArray(rData, (item) => {
-        item.init = (item.init == null) ? '' : item.init.join('\n');
-        item.test = (item.test == null) ? '' : item.test.join('\n');
-        item.deploy = (item.deploy == null) ? '' : item.deploy.join('\n');
-        item.reload = (item.reload == null) ? '' : item.reload.join('\n');
+        item.init = (item.init == null) ? '' : commandsToString(item.init);
+        item.test = (item.test == null) ? '' : commandsToString(item.test);
+        item.deploy = (item.deploy == null) ? '' : commandsToString(item.deploy);
+        item.reload = (item.reload == null) ? '' : commandsToString(item.reload);
         item.credentials = objectToString(item.credentials);
         return item;
     });
@@ -41,10 +66,10 @@ async function get(data) {
 async function update(data) {
     await raintechAuth.check();
     const sData = Object.assign({ certificate: raintechAuth.currentUser.certificate }, data);
-    if (typeof(sData.init) == 'string') sData.init = sData.init.split('\n');
-    if (typeof(sData.test) == 'string') sData.test = sData.test.split('\n');
-    if (typeof(sData.deploy) == 'string') sData.deploy = sData.deploy.split('\n');
-    if (typeof(sData.reload) == 'string') sData.reload = sData.reload.split('\n');
+    if (typeof(sData.init) == 'string') sData.init = stringToCommands(sData.init);
+    if (typeof(sData.test) == 'string') sData.test = stringToCommands(sData.test);
+    if (typeof(sData.deploy) == 'string') sData.deploy = stringToCommands(sData.deploy);
+    if (typeof(sData.reload) == 'string') sData.reload = stringToCommands(sData.reload);
     if (typeof(sData.credentials) == 'string') sData.credentials = objectFromString(sData.credentials);
 
     await loader.json('/api/projects', {
