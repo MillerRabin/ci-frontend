@@ -42,6 +42,19 @@ loader.application('projectLogs', [async () => {
         }
     }
 
+    async function startCycle(vm) {
+        requestLogs(vm).then(() => {
+            setTimeout(async () => {
+                startCycle(vm);
+            }, 5000);
+        }).catch((e) => {
+            console.log(e);
+            setTimeout(async () => {
+                startCycle(vm);
+            }, 10000);
+        });
+    }
+
     async function requestLogs(vm) {
         const rData = await logs.get({ limit: 30, offset: 0});
         for (let i = 0; i < rData.length; i++) {
@@ -117,7 +130,7 @@ loader.application('projectLogs', [async () => {
             }
         },
         mounted: function () {
-            requestLogs(this);
+            startCycle(this);
         }
     });
     return res;
