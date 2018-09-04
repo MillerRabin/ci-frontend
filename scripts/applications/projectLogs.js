@@ -55,13 +55,35 @@ loader.application('projectLogs', [async () => {
         });
     }
 
+    function getLogKey(logItem) {
+        const timestamp = logItem.event_time.toDate().getTime();
+        const projectName = logItem.event_data.repository.full_name;
+        return `${timestamp}_${projectName}`;
+    }
+
+    function createOptions() {
+        return {
+            showData: false
+        }
+    }
+    function mergeLogs(logData, logHash) {
+        const res = {};
+        for (let i = 0; i < logData.length; i++) {
+            const item = logData[i];
+            const key = getLogKey(item);
+            const hashItem = logHash[key];
+            item.options = (hashItem != null) ? hashItem.options : createOptions();
+            res[key] = item;
+        }
+        return res;
+    }
+
+
+    let hashLog = {};
     async function requestLogs(vm) {
         const rData = await logs.get({ limit: 30, offset: 0});
-        for (let i = 0; i < rData.length; i++) {
-            rData[i].resHtml = '';
-            rData[i].showData = false;
-        }
-        vm.logs = rData;
+        hashLog = mergeLogs(rData, hashLog);
+        Vue.set(vm, 'logs', rData);
     }
 
     await loader.createVueTemplate({ path: '/pages/projectLogs.html', id: 'ProjectLogs-Template' });
@@ -106,14 +128,14 @@ loader.application('projectLogs', [async () => {
                 return res;
             },
             execCommand: function (log, command) {
-                if ((log.currentCommand != null) && (log.currentCommand.text == command.text)) {
-                    log.showData = false;
-                    log.currentCommand = null;
+                if ((log.options.currentCommand != null) && (log.options.currentCommand.text == command.text)) {
+                    log.options.showData = false;
+                    log.options.currentCommand = null;
                     return;
 
                 }
-                log.showData = true;
-                Vue.set(log, 'currentCommand', parseCommand(command));
+                log.options.showData = true;
+                Vue.set(log.options, 'currentCommand', parseCommand(command));
             },
             showError: function (log) {
                 if (log.error == null) return;

@@ -23,12 +23,12 @@
                     <span v-if="command.message != null" v-text="command.message"></span>
                 </td>
             </tr>
-            <tr class="data" v-bind:class="{ show: log.showData }">
-                <td colspan="7" v-if="(log.currentCommand != null) && (log.currentCommand.text == 'text')" v-text="log.currentCommand.entry"></td>
-                <td colspan="7" v-if="(log.currentCommand != null) && ((log.currentCommand.text == 'deploy')||(log.currentCommand.text == 'test'))">
+            <tr class="data" v-bind:class="{ show: log.options.showData }">
+                <td colspan="7" v-if="(log.options.currentCommand != null) && (log.options.currentCommand.text == 'text')" v-text="log.options.currentCommand.entry"></td>
+                <td colspan="7" v-if="(log.options.currentCommand != null) && ((log.options.currentCommand.text == 'deploy')||(log.options.currentCommand.text == 'test'))">
                     <div>
                         <span>Success:</span>
-                        <span v-text="log.currentCommand.entry.success ? 'true' : 'false'"></span>
+                        <span v-text="log.options.currentCommand.entry.success ? 'true' : 'false'"></span>
                     </div>
                     <table class="cmdTable">
                         <thead>
@@ -41,7 +41,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="shell in log.currentCommand.entry.results">
+                            <tr v-for="shell in log.options.currentCommand.entry.results">
                                 <td v-text="shell.code"></td>
                                 <td v-text="shell.command"></td>
                                 <td v-text="shell.cwd"></td>
@@ -51,7 +51,7 @@
                         </tbody>
                     </table>
                 </td>
-                <td colspan="7" v-if="(log.currentCommand != null) && (log.currentCommand.text == 'commits')">
+                <td colspan="7" v-if="(log.options.currentCommand != null) && (log.options.currentCommand.text == 'commits')">
                     <table>
                         <thead>
                             <tr>
@@ -60,7 +60,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="message in log.currentCommand.entry">
+                            <tr v-for="message in log.options.currentCommand.entry">
                                 <td v-text="message.author"></td>
                                 <td v-text="message.message"></td>
                             </tr>
