@@ -14,7 +14,6 @@ exports.pages = [{
 }, {
     template: 'templates/pages/changePassword.pug',
     destination: 'changePassword.html',
-    alias: '/',
     priority: 0.8,
     freq: 'weekly',
     templates: [{
