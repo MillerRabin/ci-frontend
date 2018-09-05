@@ -1,4 +1,4 @@
-const authPath = 'http://localhost:8093';
+const authPath = 'https://auth.raintech.su';
 
 export default {
     authPath: authPath,
