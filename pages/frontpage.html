@@ -1,5 +1,11 @@
-<div class="Frontpage">
-    <div class="content">
+<div class="Frontpage" v-bind:class="{ show: loaded == true }">
+    <div class="info" v-if="showError == true">
+        <div>You can't view any data anonymously please
+            <button class="orange focus" v-on:click="login">Log In</button> or
+            <button class="orange focus" v-on:click="signup">Sign Up</button> first
+        </div>
+    </div>
+    <div class="content" v-if="showError == false">
         <nav class="projects"  is="projectList"></nav>
         <div class="configs transition" v-bind:class="{ show: showConfigs }" is="projectConfigs"></div>
         <div class="logs transition" v-bind:class="{ fullLength: !showConfigs }" is="projectLogs"></div>

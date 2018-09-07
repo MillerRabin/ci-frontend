@@ -1,7 +1,7 @@
 import loader from '/scripts/loader.js';
 import projects from '/scripts/services/projects.js';
-import messages from '/scripts/services/messages.js';
 import location from '/scripts/services/location.js';
+import raintechAuth from '/scripts/services/raintechAuth.js';
 
 loader.application('projectList', [async () => {
     function setActive(vm) {
@@ -18,6 +18,7 @@ loader.application('projectList', [async () => {
     }
 
     async function get(vm) {
+        vm.errors = null;
         try {
             vm.projects = await projects.get();
             vm.errors = null;
@@ -44,7 +45,7 @@ loader.application('projectList', [async () => {
             }
         },
         mounted: function () {
-            messages.on('user.changed', () => {
+            raintechAuth.onUserChanged(() => {
                 get(this);
             })
         }

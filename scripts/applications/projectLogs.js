@@ -48,7 +48,6 @@ loader.application('projectLogs', [async () => {
                 startCycle(vm);
             }, 5000);
         }).catch((e) => {
-            console.log(e);
             setTimeout(async () => {
                 startCycle(vm);
             }, 10000);
@@ -57,8 +56,7 @@ loader.application('projectLogs', [async () => {
 
     function getLogKey(logItem) {
         const timestamp = logItem.event_time.toDate().getTime();
-        const projectName = logItem.event_data.repository.full_name;
-        return `${timestamp}_${projectName}`;
+        return `${timestamp}_${ logItem.project_name }`;
     }
 
     function createOptions() {
@@ -95,15 +93,6 @@ loader.application('projectLogs', [async () => {
             return init();
         },
         methods: {
-            getBranch: function (log) {
-                try {
-                    const push = log.event_data.push;
-                    const pushChanges = push.changes[0];
-                    return pushChanges.new.name;
-                } catch (e) {
-                    return '';
-                }
-            },
             hasError: function (log) {
                 if (log.error != null) return true;
                 try {
@@ -148,7 +137,7 @@ loader.application('projectLogs', [async () => {
                 this.execCommand(log, {
                     text: 'commits',
                     entry: getCommits(log.event_data)
-                })
+                });
             }
         },
         mounted: function () {

@@ -1,5 +1,4 @@
 import loader from '/scripts/loader.js';
-import messages from '/scripts/services/messages.js'
 import raintechAuth from '/scripts/services/raintechAuth.js'
 
 loader.application('auth', [async () => {
@@ -41,12 +40,10 @@ loader.application('auth', [async () => {
         vm.agree = true;
         vm.dialog.showModal();
         vm.tab = tab;
-        messages.send('popup.show');
     }
 
     function hide(vm) {
         vm.dialog.close();
-        messages.send('popup.close');
     }
 
     await loader.createVueTemplate({ path: '/pages/auth.html', id: 'Auth-Template' });
@@ -126,17 +123,22 @@ loader.application('auth', [async () => {
         },
         mounted: async function () {
             this.dialog = this.$el.querySelector('dialog');
+            res.login = () => {
+                this.loginDialog();
+            };
+            res.signup = () => {
+                this.signupDialog();
+            };
             try {
                 await raintechAuth.check();
                 this.currentUser = getUser();
             } catch (e) {
-                if (e.code == 'CertExpired') {
+                if (e instanceof raintechAuth.Exception)
                     this.loginDialog();
-                }
             }
             this.loaded = true;
 
-            messages.on('user.changed', () => {
+            raintechAuth.onUserChanged(() => {
                 this.currentUser = getUser();
             });
         }

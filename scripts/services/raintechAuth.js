@@ -41,7 +41,7 @@ async function getCurrentUser() {
     const cert = (safe.isEmpty(search.cert)) ? window.localStorage['raintech-auth'] : search.cert;
     if (cert == null) {
         clearCurrentUser();
-        return;
+        return null;
     }
     await checkCertificate({ certificate: cert });
     return currentUser;
@@ -66,13 +66,17 @@ async function login(data) {
 async function checkCertificate(data) {
     const sData = Object.assign({}, data);
     sData.referer = config.referer;
-    const rData = await loader.json(config.authPath + '/api/users/login/bycert', {
-        method: 'POST',
-        data: sData
-    });
-    saveCertificate(rData.certificate);
-    rewriteCurrentUser(rData);
-    return rData;
+    try {
+        const rData = await loader.json(config.authPath + '/api/users/login/bycert', {
+            method: 'POST',
+            data: sData
+        });
+        saveCertificate(rData.certificate);
+        rewriteCurrentUser(rData);
+        return rData;
+    } catch (e) {
+        throw new RaintechAuthException(e);
+    }
 }
 
 async function logout() {
@@ -122,9 +126,13 @@ async function update(data) {
 }
 
 async function check() {
-    const cert = await getCurrentUser();
-    if (cert == null) throw new RaintechAuthException({ message: 'User is not authorized'});
-    return cert;
+    const currentUser = await getCurrentUser();
+    if (currentUser == null) throw new RaintechAuthException({ message: 'User is not authorized'});
+    return currentUser;
+}
+
+function onUserChanged(callback) {
+    return messages.on('user.changed', callback);
 }
 
 export default {
@@ -135,5 +143,6 @@ export default {
     check: check,
     update: update,
     currentUser: currentUser,
-    Exception: RaintechAuthException
+    Exception: RaintechAuthException,
+    onUserChanged: onUserChanged
 };

@@ -1,6 +1,7 @@
 import loader from '/scripts/loader.js';
 import projects from '/scripts/services/projects.js';
 import location from '/scripts/services/location.js';
+import raintechAuth from '/scripts/services/raintechAuth.js';
 
 loader.application('projectConfigs', [async () => {
     function init() {
@@ -42,6 +43,16 @@ loader.application('projectConfigs', [async () => {
                     this.disabled = false;
                 }
 
+            },
+            execute: async function () {
+                this.disabled = true;
+                try {
+                    this.message = await projects.execute(this.current);
+                    this.disabled = false;
+                } catch (e) {
+                    console.log(e);
+                    this.disabled = false;
+                }
             }
         },
         computed: {
@@ -60,6 +71,10 @@ loader.application('projectConfigs', [async () => {
         },
         mounted: function () {
             getProject(this);
+            raintechAuth.onUserChanged(() => {
+                getProject(this);
+            });
+
         }
     });
     return res;

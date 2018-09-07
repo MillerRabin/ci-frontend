@@ -9,10 +9,6 @@
             <input v-model="current.branch" v-bind:disabled="disabled"/>
         </label>
         <label class="full">
-            <span>Project link</span>
-            <input v-model="current.repository" v-bind:disabled="disabled"/>
-        </label>
-        <label class="full">
             <span>Server credentials</span>
             <textarea v-model="current.credentials" v-bind:disabled="disabled"></textarea>
         </label>
@@ -27,7 +23,7 @@
         </label>
         <label>
             <span>Init commands</span>
-            <span class="hint">Executed when the project not exists on the server</span>
+            <span class="hint">Executed when the project doesn't exists on the server</span>
             <textarea v-model="current.init" v-bind:disabled="disabled"></textarea>
         </label>
         <label>
@@ -37,13 +33,14 @@
         </label>
         <label>
             <span>Reload commands</span>
-            <span class="hint">The commands to reaload after succcessfull update if needed</span>
+            <span class="hint">The commands to reload after succcessfull update if needed</span>
             <textarea v-model="current.reload" v-bind:disabled="disabled"></textarea>
         </label>
     </div>
     <div class="message" v-if="message != null" v-text="message"></div>
     <div class="buttons" v-if="current != null">
         <button class="submit focus" v-on:click="update" v-bind:disabled="disabled">Update</button>
+        <button class="submit focus blue" v-on:click="execute" v-bind:disabled="disabled">Execute</button>
         <button class="submit cancel focus" v-bind:disabled="disabled">Cancel</button>
     </div>
 </div>

@@ -120,6 +120,16 @@ button {
     background-color: rgba(255, 96, 61, 0.3);
 }
 
+.submit.blue {
+    color: #7b68ee;
+    border: solid 0.069vw #7b68ee;
+}
+
+.submit.blue:hover {
+    background-color: rgba(123, 104, 238, 0.3);
+}
+
+
 .submit[disabled] {
     border: solid 0.069vw #ccc;
     color: #ccc;

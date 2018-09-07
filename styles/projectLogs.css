@@ -6,7 +6,7 @@
 .ProjectLogs .logTable {
     max-height: 100%;
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: auto;
     width: 100%;
     height: 100%;
     display: block;
@@ -67,6 +67,8 @@
 
 .ProjectLogs .cmdTable {
     width: 100%;
+    color: #e0e0e0;
+    display: block;
 }
 
 .ProjectLogs .cmdTable tbody tr td:nth-child(1) {
@@ -86,3 +88,6 @@
     width: 30%;
 }
 
+.ProjectLogs .cmdError {
+    color: #ff603d;
+}

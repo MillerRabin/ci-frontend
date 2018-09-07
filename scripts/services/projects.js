@@ -46,6 +46,7 @@ function stringToCommands(str) {
     return res;
 }
 
+const projectHash = {};
 async function get(data) {
     await raintechAuth.check();
     const sData = Object.assign({ certificate: raintechAuth.currentUser.certificate }, data);
@@ -54,6 +55,7 @@ async function get(data) {
         data: sData
     });
     return postgres.toArray(rData, (item) => {
+        projectHash[item.id] = item;
         item.init = (item.init == null) ? '' : commandsToString(item.init);
         item.test = (item.test == null) ? '' : commandsToString(item.test);
         item.deploy = (item.deploy == null) ? '' : commandsToString(item.deploy);
@@ -79,7 +81,20 @@ async function update(data) {
     return 'Update success';
 }
 
+async function execute(data) {
+    await update(data);
+    const currentUser = await raintechAuth.check();
+    const sData = { id: data.id, certificate: currentUser.certificate };
+    await loader.json('/api/git/manual', {
+        method: 'POST',
+        data: sData
+    });
+}
+
+
 export default {
     get: get,
-    update: update
+    update: update,
+    execute: execute,
+    hash: projectHash
 }

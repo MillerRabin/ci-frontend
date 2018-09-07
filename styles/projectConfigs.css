@@ -24,11 +24,12 @@
     font-size: 0.7rem;
 }
 
-
 .ProjectConfigs .content label textarea {
     display: block;
     width: 100%;
     min-height: 5vw;
+    min-width: 100%;
+    max-width: 100%;
 }
 
 .ProjectConfigs .content label input {
@@ -39,15 +40,16 @@
 .ProjectConfigs .buttons {
     display: flex;
     justify-content: space-between;
-    width: 50%;
-    margin: 1rem 4rem 0 4rem;
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0 4rem 0 4rem;
 }
 
 .ProjectConfigs .buttons .submit {
     margin: 0;
     font-size: 1.1rem;
     height: auto;
-    width: 45%;
+    width: 30%;
     padding: 1rem;
 }
 

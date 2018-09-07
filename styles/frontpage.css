@@ -1,5 +1,10 @@
 .Frontpage {
     height: 100%;
+    display: none;
+}
+
+.Frontpage.show {
+    display: block;
 }
 
 .Frontpage > .content {
@@ -39,4 +44,14 @@
     width: 81.5%;
     border-radius: 0.139vw;
     border: 1px solid #fff;
+}
+
+.Frontpage .info {
+    text-align: center;
+    font-size: 2rem;
+    margin-top: 15rem;
+}
+
+.Frontpage .info button:hover {
+    text-decoration: underline;
 }

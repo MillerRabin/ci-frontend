@@ -7,11 +7,11 @@
                 <td class="branch header">Branch</td>
             </tr>
         </thead>
-        <tbody class="entry" v-for="log in logs" v-bind:class="{ error: hasError(log) }">
+        <tbody class="entry" v-for="log in logs" v-bind:class="{ cmdError: hasError(log) }">
             <tr class="row">
                 <td class="time column" v-text="log.event_time.format('hh:mm:ss DD MMM YYYY')"></td>
-                <td class="name column" v-text="log.event_data.repository.project.name"></td>
-                <td class="branch column" v-text="getBranch(log)"></td>
+                <td class="name column" v-text="log.project_name"></td>
+                <td class="branch column" v-text="log.branch"></td>
                 <td class="column command">
                     <button v-on:click="showCommits(log)">Commits</button>
                 </td>
@@ -41,7 +41,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="shell in log.options.currentCommand.entry.results">
+                            <tr v-for="shell in log.options.currentCommand.entry.results" v-bind:class="{ cmdError: shell.code > 0 }">
                                 <td v-text="shell.code"></td>
                                 <td v-text="shell.command"></td>
                                 <td v-text="shell.cwd"></td>
