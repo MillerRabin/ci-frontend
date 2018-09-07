@@ -22,7 +22,7 @@ function clearCurrentUser(emitEvent = false) {
         if (!currentUser.hasOwnProperty(key)) continue;
         delete currentUser[key];
     }
-    if (emitEvent) messages.send('user.changed');
+    if (emitEvent) messages.send('user.changed', null);
 }
 
 function rewriteCurrentUser(data) {

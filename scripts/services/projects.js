@@ -1,6 +1,14 @@
 import loader from '/scripts/loader.js'
 import raintechAuth from '/scripts/services/raintechAuth.js';
 import postgres from '/scripts/services/postgres.js';
+import safe from '/scripts/services/safe.js';
+
+class ProjectException extends Error {
+    constructor(object) {
+        super();
+        Object.assign(this, object);
+    }
+}
 
 function objectToString(obj) {
     const res = [];
@@ -91,10 +99,32 @@ async function execute(data) {
     });
 }
 
+async function create(data) {
+    const currentUser = await raintechAuth.check();
+    if (safe.isEmpty(data.project_name )) throw new ProjectException({ project_name: 'Project name is empty'});
+    const sData = Object.assign({ certificate: currentUser.certificate }, data);
+    await loader.json('/api/projects', {
+        method: 'POST',
+        data: sData
+    });
+}
+
+async function remove(data) {
+    const currentUser = await raintechAuth.check();
+    const sData = Object.assign({ certificate: currentUser.certificate }, data);
+    await loader.json('/api/projects', {
+        method: 'DELETE',
+        data: sData
+    });
+}
+
 
 export default {
     get: get,
     update: update,
     execute: execute,
-    hash: projectHash
+    create: create,
+    delete: remove,
+    hash: projectHash,
+    Exception: ProjectException
 }

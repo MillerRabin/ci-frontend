@@ -37,10 +37,11 @@
             <textarea v-model="current.reload" v-bind:disabled="disabled"></textarea>
         </label>
     </div>
-    <div class="message" v-if="message != null" v-text="message"></div>
     <div class="buttons" v-if="current != null">
+        <div class="message" v-if="message != null" v-text="message"></div>
         <button class="submit focus" v-on:click="update" v-bind:disabled="disabled">Update</button>
         <button class="submit focus blue" v-on:click="execute" v-bind:disabled="disabled">Execute</button>
+        <button class="submit focus red" v-on:click="remove" v-bind:disabled="disabled">Delete</button>
         <button class="submit cancel focus" v-bind:disabled="disabled">Cancel</button>
     </div>
 </div>

@@ -2,6 +2,11 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    height: calc(92% - 1rem);
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    padding-right: 1rem;
 }
 
 .ProjectConfigs .content label {
@@ -41,15 +46,15 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
-    margin-top: 1rem;
     padding: 0 4rem 0 4rem;
+    height: 8%;
 }
 
 .ProjectConfigs .buttons .submit {
     margin: 0;
     font-size: 1.1rem;
     height: auto;
-    width: 30%;
+    width: 23%;
     padding: 1rem;
 }
 

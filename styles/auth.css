@@ -17,42 +17,6 @@
     font-size: 1rem;
 }
 
-.Auth .form::backdrop {
-    position: absolute;
-    z-index: 10;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    background-color: rgba(0,0,0,0.5);
-}
-
-.Auth .form .close {
-    position: absolute;
-    right: -2.5vw;
-    top: -2.5vw;
-    border-radius: 50%;
-    display: block;
-    padding: 0;
-    color: #e0e0e0;
-    width: 2.5vw;
-    height: 2.5vw;
-    background: url(../images/close.svg);
-    background-size: 100% 100%;
-    border: none;
-}
-
-.Auth .form .close:hover {
-    background-color: rgba(84, 84, 84, 0.3);
-}
-
-.Auth .form label {
-    display: block;
-    width: 100%;
-    margin-top: 1rem;
-    text-align: left;
-}
-
 .Auth .form .tabs {
     display: flex;
     margin-bottom: 2rem;
@@ -76,30 +40,6 @@
 .Auth .form .tabs .tab.active {
     border-bottom: 0.069vw solid #ff603d;
     color: #ff603d;
-}
-
-.Auth .form label:first-child {
-    margin-top: 0;
-}
-
-.Auth .form input {
-    width: 100%;
-    box-sizing: border-box;
-    margin: 0 0 0.694vw 0;
-    padding: 0.694vw 0;
-    font-size: 0.972vw;
-    font-weight: 300;
-    text-align: left;
-    color: #545454;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom: 0.069vw solid #545454;
-}
-
-.Auth .form input[type="checkbox"] {
-    display: inline;
-    width: auto;
 }
 
 .Auth .tab-content button {

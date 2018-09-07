@@ -4,6 +4,9 @@
 
 html {
     font-size: 0.684vw;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
 }
 
 body {
@@ -13,7 +16,9 @@ body {
     color: #e0e0e0;
     background-color: #545454;
     font-family: Roboto, sans-serif;
-
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
 }
 
 input {
@@ -106,7 +111,7 @@ button {
     height: 4.167vw;
     border-radius: 0.139vw;
     border: solid 0.069vw #ff603d;
-    margin: 2.083vw auto;
+    margin: 2.083vw auto 0 auto;
     display: block;
     font-size: 1.389vw;
     font-weight: 300;
@@ -169,3 +174,77 @@ button[disabled]:hover {
 .transition {
     transition: all 1s ease 0s
 }
+
+.form {
+    position: fixed;
+    top: 8vw;
+    width: 34.722vw;
+    height: auto;
+    background-color: #ffffff;
+    border-radius: 0.139vw;
+    box-sizing: border-box;
+    padding: 2.083vw 3.472vw;
+    border: none;
+    font-size: 1rem;
+}
+
+.form::backdrop {
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.form .close {
+    position: absolute;
+    right: -2.5vw;
+    top: -2.5vw;
+    border-radius: 50%;
+    display: block;
+    padding: 0;
+    color: #e0e0e0;
+    width: 2.5vw;
+    height: 2.5vw;
+    background: url(../images/close.svg);
+    background-size: 100% 100%;
+    border: none;
+}
+
+.form .close:hover {
+    background-color: rgba(84, 84, 84, 0.3);
+}
+
+.form label {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+    text-align: left;
+}
+
+.Auth .form label:first-child {
+    margin-top: 0;
+}
+
+.form input {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 0 0.694vw 0;
+    padding: 0.694vw 0;
+    font-size: 0.972vw;
+    font-weight: 300;
+    text-align: left;
+    color: #545454;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 0.069vw solid #545454;
+}
+
+.form input[type="checkbox"] {
+    display: inline;
+    width: auto;
+}
+

@@ -20,11 +20,11 @@ loader.application('projectList', [async () => {
     async function get(vm) {
         vm.errors = null;
         try {
-            vm.projects = await projects.get();
-            vm.errors = null;
+            Vue.set(vm, 'projects', await projects.get());
+            Vue.set(vm, 'errors',  null);
         } catch (e) {
-            vm.projects = null;
-            vm.errors = e;
+            Vue.set(vm, 'projects', null);
+            Vue.set(vm, 'errors',  e);
         }
     }
 
@@ -40,13 +40,13 @@ loader.application('projectList', [async () => {
             return obj;
         },
         watch:{
-            $route (to){
+            $route (){
                 setActive(this);
             }
         },
         mounted: function () {
-            raintechAuth.onUserChanged(() => {
-                get(this);
+            raintechAuth.onUserChanged(async () => {
+                await get(this);
             })
         }
     });

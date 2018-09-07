@@ -53,7 +53,18 @@ loader.application('projectConfigs', [async () => {
                     console.log(e);
                     this.disabled = false;
                 }
+            },
+            remove: async function () {
+                this.disabled = true;
+                try {
+                    this.message = await projects.delete(this.current);
+                    this.disabled = false;
+                } catch (e) {
+                    console.log(e);
+                    this.disabled = false;
+                }
             }
+
         },
         computed: {
             current: function () {
