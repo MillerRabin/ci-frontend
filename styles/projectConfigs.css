@@ -1,35 +1,49 @@
 .ProjectConfigs .content {
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    grid-template-columns: 100%;
+}
+
+.ProjectConfigs .layout {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    height: calc(88% - 1rem);
-    overflow-x: hidden;
+    overflow-x: visible;
     overflow-y: auto;
     margin-bottom: 1rem;
     padding-right: 1rem;
 }
 
-.ProjectConfigs .content label {
+.ProjectConfigs .layout label {
     display: block;
     width: 48%;
     margin-bottom: 1rem;
 }
 
-.ProjectConfigs .content label.full {
+.ProjectConfigs .layout label:nth-child(1) {
+    margin-bottom: 0;
+}
+
+.ProjectConfigs .layout label:nth-child(2) {
+    margin-bottom: 0;
+}
+
+.ProjectConfigs .layout label.full {
     width: 100%;
 }
 
-.ProjectConfigs .content label span {
+.ProjectConfigs .layout label span {
     display: block;
 }
 
-.ProjectConfigs .content label span.hint {
+.ProjectConfigs .layout label span.hint {
     font-style: italic;
     color: #cccccc;
     font-size: 0.7rem;
 }
 
-.ProjectConfigs .content label textarea {
+.ProjectConfigs .layout label textarea {
     display: block;
     width: 100%;
     min-height: 5vw;
@@ -37,7 +51,7 @@
     max-width: 100%;
 }
 
-.ProjectConfigs .content label input {
+.ProjectConfigs .layout label input {
     display: block;
     width: 100%;
 }
@@ -47,7 +61,6 @@
     justify-content: space-between;
     width: 100%;
     padding: 0 4rem 0 4rem;
-    height: 12%;
     flex-wrap: wrap;
 }
 

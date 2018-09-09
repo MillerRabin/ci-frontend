@@ -18,7 +18,7 @@
             <button class="item" tabindex="11" v-on:click="logout" v-bind:disabled="disabled">Logout</button>
         </span>
     </button>
-    <dialog class="form" v-on:keyup.escape="closeDialog">
+    <dialog v-on:keyup.escape="closeDialog">
         <button class="close focus" title="close" v-on:click="closeDialog"></button>
         <div class="tabs">
             <button class="tab focus" v-bind:class="{ active: tab == 0 }" v-on:click="setTab(0)" tabindex="5" v-bind:disabled="disabled">Log In</button>

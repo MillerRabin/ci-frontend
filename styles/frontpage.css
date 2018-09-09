@@ -8,11 +8,11 @@
 }
 
 .Frontpage > .content {
-    padding: 0 8rem 2rem 8rem;
+    padding: 0 8rem 0 8rem;
     display: flex;
     align-items: stretch;
     justify-content: space-between;
-    height: calc(100% - 2rem);
+    height: 100%;
 }
 
 .Frontpage .content .projects {
@@ -22,7 +22,7 @@
 
 .Frontpage > .content .configs {
     width: 0;
-    overflow: hidden;
+    overflow: visible;
     border: 1px solid #fff;
     padding: 0;
     height: 100%;

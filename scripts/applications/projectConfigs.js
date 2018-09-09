@@ -14,7 +14,8 @@ loader.application('projectConfigs', [async () => {
             disabled: false,
             removeDialog: null,
             deleteMessage: '',
-            errors: {}
+            errors: {},
+            tabIndex: 0
         }
     }
 
@@ -88,6 +89,9 @@ loader.application('projectConfigs', [async () => {
             },
             hideRemoveDialog: function () {
                 this.removeDialog.close();
+            },
+            cancel: function () {
+
             }
         },
         computed: {

@@ -4,44 +4,6 @@
     position: relative;
 }
 
-.Auth .form {
-    position: fixed;
-    top: 8vw;
-    width: 34.722vw;
-    height: auto;
-    background-color: #ffffff;
-    border-radius: 0.139vw;
-    box-sizing: border-box;
-    padding: 2.083vw 3.472vw;
-    border: none;
-    font-size: 1rem;
-}
-
-.Auth .form .tabs {
-    display: flex;
-    margin-bottom: 2rem;
-    justify-content: space-between;
-}
-
-.Auth .form .tabs .tab {
-    border: none;
-    background-color: inherit;
-    display: block;
-    width: calc(50% - 1rem);
-    font-size: 1.389vw;
-    font-weight: 300;
-    text-align: center;
-    color: #545454;
-    padding: 0.694vw 0 0.694vw 0;
-    border-bottom: 0.069vw solid transparent;
-    margin-bottom: 2.083vw;
-}
-
-.Auth .form .tabs .tab.active {
-    border-bottom: 0.069vw solid #ff603d;
-    color: #ff603d;
-}
-
 .Auth .tab-content button {
     display: block;
     margin: 2rem auto 0 auto;
@@ -91,6 +53,17 @@
     background-color: rgba(255, 255, 255, 0.3);
 }
 
+.Auth .tabs .tab {
+    justify-content: space-between;
+    margin: 0 0 2rem 0;
+}
+
+.Auth .tabs .tab {
+    width: calc(50% - 1rem);
+    color: #545454;
+    padding: 0.694vw 0 0.694vw 0;
+    margin-bottom: 2.083vw;
+}
 
 
 
