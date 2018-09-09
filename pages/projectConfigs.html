@@ -38,10 +38,19 @@
         </label>
     </div>
     <div class="buttons" v-if="current != null">
-        <div class="message" v-if="message != null" v-text="message"></div>
-        <button class="submit focus" v-on:click="update" v-bind:disabled="disabled">Update</button>
+        <div class="message" v-bind:class="{ show: (message != null) }" v-text="(message != null) ? message : 'no message'"></div>
+        <button class="submit focus green" v-on:click="update" v-bind:disabled="disabled">Update</button>
         <button class="submit focus blue" v-on:click="execute" v-bind:disabled="disabled">Execute</button>
-        <button class="submit focus red" v-on:click="remove" v-bind:disabled="disabled">Delete</button>
+        <button class="submit focus red" v-on:click="showRemoveDialog" v-bind:disabled="disabled">Delete</button>
         <button class="submit cancel focus" v-bind:disabled="disabled">Cancel</button>
     </div>
+    <dialog class="form removeDialog">
+        <button class="close focus" title="close" v-on:click="hideRemoveDialog"></button>
+        <h3>
+            Are you ready to delete
+            <span v-text="deleteMessage"></span>?
+        </h3>
+        <div class="error" v-if="errors.message != null" v-text="errors.message"></div>
+        <button class="submit focus" v-on:click="remove">Delete</button>
+    </dialog>
 </div>

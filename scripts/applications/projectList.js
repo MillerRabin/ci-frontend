@@ -2,6 +2,7 @@ import loader from '/scripts/loader.js';
 import projects from '/scripts/services/projects.js';
 import location from '/scripts/services/location.js';
 import raintechAuth from '/scripts/services/raintechAuth.js';
+import messages from '/scripts/services/messages.js';
 
 loader.application('projectList', [async () => {
     function setActive(vm) {
@@ -9,10 +10,10 @@ loader.application('projectList', [async () => {
         vm.active = search.project;
     }
 
-    function init(obj) {
+    function init() {
         return {
-            projects: obj.projects,
-            errors: obj.errors,
+            projects: [],
+            errors: {},
             active: null
         }
     }
@@ -28,14 +29,12 @@ loader.application('projectList', [async () => {
         }
     }
 
-    const initObj = {};
-    await get(initObj);
+
     await loader.createVueTemplate({ path: '/pages/projectList.html', id: 'ProjectList-Template' });
-    const res = {};
-    res.Constructor = Vue.component('projectList', {
+    const Constructor = Vue.component('projectList', {
         template: '#ProjectList-Template',
         data: function () {
-            const obj = init(initObj);
+            const obj = init();
             setActive(obj);
             return obj;
         },
@@ -45,11 +44,26 @@ loader.application('projectList', [async () => {
             }
         },
         mounted: function () {
-            raintechAuth.onUserChanged(async () => {
+            const reload = async () => {
                 await get(this);
-            })
+            };
+            reload();
+            raintechAuth.onUserChanged(reload);
+            messages.on('projects.reload', reload);
         }
     });
-    return res;
+
+    return {
+        Constructor: Constructor,
+    };
 }]);
+
+function reload() {
+    messages.send('projects.reload');
+}
+
+export default {
+    reload: reload
+}
+
 

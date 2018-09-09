@@ -3,6 +3,7 @@ import '/scripts/applications/router.js';
 import '/scripts/applications/auth.js';
 import raintechAuth from '/scripts/services/raintechAuth.js';
 import projects from '/scripts/services/projects.js';
+import projectList from '/scripts/applications/projectList.js';
 
 loader.application('Main', ['router', 'auth', async (router) => {
     const data = {
@@ -15,6 +16,7 @@ loader.application('Main', ['router', 'auth', async (router) => {
 
     function show(vm) {
         vm.project_name = '';
+        Vue.set(vm, 'errors', {});
         vm.dialog.showModal();
     }
 
@@ -37,10 +39,14 @@ loader.application('Main', ['router', 'auth', async (router) => {
                 this.errors = {};
                 this.disabled = true;
                 try {
-                    await projects.create({
+                    const newProject = await projects.create({
                         project_name: this.project_name
                     });
                     this.disabled = false;
+                    this.closeDialog();
+                    projectList.reload();
+                    this.$router.push({ path: `/?project=${newProject.id}` });
+
                 } catch (e) {
                     console.log(e);
                     this.errors = e;

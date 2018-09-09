@@ -134,6 +134,14 @@ button {
     background-color: rgba(123, 104, 238, 0.3);
 }
 
+.submit.green {
+    color: #32cd32;
+    border: solid 0.069vw #32cd32;
+}
+
+.submit.green:hover {
+    background-color: rgba(50, 205, 50, 0.3);
+}
 
 .submit[disabled] {
     border: solid 0.069vw #ccc;
@@ -143,6 +151,15 @@ button {
 
 .submit[disabled]:hover {
     background-color: transparent;
+}
+
+.submit.cancel {
+    color: white;
+    border: 1px solid white;
+}
+
+.submit.cancel:hover {
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
 .message {
@@ -156,6 +173,10 @@ button {
 
 .orange {
     color: #ff603d;
+}
+
+.green {
+    color: #228b22;
 }
 
 .hide {

@@ -16,7 +16,8 @@
         <dialog class="form">
             <button class="close focus" title="close" v-on:click="closeDialog"></button>
             <label>
-                <input autofocus v-model="project_name" placeholder="New project name" v-bind:disabled="disabled"/>
+                <input autofocus v-model="project_name" placeholder="New project name" v-bind:disabled="disabled"
+                       v-on:keypress.13="create"/>
                 <span class="error" v-if="errors.project_name != null" v-text="errors.project_name"></span>
             </label>
             <div class="error" v-if="errors.message != null" v-text="errors.message"></div>

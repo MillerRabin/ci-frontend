@@ -2,6 +2,7 @@ import loader from '/scripts/loader.js';
 import projects from '/scripts/services/projects.js';
 import location from '/scripts/services/location.js';
 import raintechAuth from '/scripts/services/raintechAuth.js';
+import projectList from '/scripts/applications/projectList.js';
 
 loader.application('projectConfigs', [async () => {
     function init() {
@@ -10,12 +11,12 @@ loader.application('projectConfigs', [async () => {
             defaults: defaults,
             active: null,
             message: null,
-            disabled: false
+            disabled: false,
+            removeDialog: null,
+            deleteMessage: '',
+            errors: {}
         }
     }
-
-    const editorHash = {};
-    const defaults = {};
 
     async function getProject(vm) {
         const query = location.getSearch();
@@ -28,8 +29,19 @@ loader.application('projectConfigs', [async () => {
         vm.defaults[cp.id] = Object.assign({}, cp);
     }
 
+    function getDefaults(vm) {
+        const index = (vm.active == null) ? location.getSearch().project : vm.active;
+        if (index == null) return null;
+        return vm.defaults[index];
+    }
+
+
+
     await loader.createVueTemplate({ path: '/pages/projectConfigs.html', id: 'ProjectConfigs-Template' });
     const res = {};
+    const editorHash = {};
+    const defaults = {};
+
     res.Constructor = Vue.component('projectConfigs', {
         template: '#ProjectConfigs-Template',
         methods: {
@@ -55,16 +67,28 @@ loader.application('projectConfigs', [async () => {
                 }
             },
             remove: async function () {
+                Vue.set(this, 'errors', {});
                 this.disabled = true;
                 try {
                     this.message = await projects.delete(this.current);
                     this.disabled = false;
+                    projectList.reload();
+                    this.hideRemoveDialog();
+                    this.$router.push({path: '/', params: {} });
                 } catch (e) {
                     console.log(e);
+                    Vue.set(this, 'errors', e);
                     this.disabled = false;
                 }
+            },
+            showRemoveDialog: function () {
+                const defs = getDefaults(this);
+                this.deleteMessage = defs.project_name;
+                this.removeDialog.showModal();
+            },
+            hideRemoveDialog: function () {
+                this.removeDialog.close();
             }
-
         },
         computed: {
             current: function () {
@@ -81,11 +105,11 @@ loader.application('projectConfigs', [async () => {
             return init();
         },
         mounted: function () {
+            this.removeDialog = this.$el.querySelector('.removeDialog');
             getProject(this);
             raintechAuth.onUserChanged(() => {
                 getProject(this);
             });
-
         }
     });
     return res;

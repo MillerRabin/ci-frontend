@@ -24,6 +24,7 @@ function objectFromString(str) {
     const obj = {};
     for (let line of lines) {
         const [key, value] = line.split(':');
+        if (value == null) continue;
         obj[key.trim()] = value.trim();
     }
     return obj;
@@ -54,7 +55,18 @@ function stringToCommands(str) {
     return res;
 }
 
+
 const projectHash = {};
+function formatProject(item) {
+    projectHash[item.id] = item;
+    item.init = (item.init == null) ? '' : commandsToString(item.init);
+    item.test = (item.test == null) ? '' : commandsToString(item.test);
+    item.deploy = (item.deploy == null) ? '' : commandsToString(item.deploy);
+    item.reload = (item.reload == null) ? '' : commandsToString(item.reload);
+    item.credentials = objectToString(item.credentials);
+    return item;
+}
+
 async function get(data) {
     await raintechAuth.check();
     const sData = Object.assign({ certificate: raintechAuth.currentUser.certificate }, data);
@@ -62,15 +74,7 @@ async function get(data) {
         method: 'POST',
         data: sData
     });
-    return postgres.toArray(rData, (item) => {
-        projectHash[item.id] = item;
-        item.init = (item.init == null) ? '' : commandsToString(item.init);
-        item.test = (item.test == null) ? '' : commandsToString(item.test);
-        item.deploy = (item.deploy == null) ? '' : commandsToString(item.deploy);
-        item.reload = (item.reload == null) ? '' : commandsToString(item.reload);
-        item.credentials = objectToString(item.credentials);
-        return item;
-    });
+    return postgres.toArray(rData, formatProject);
 }
 
 async function update(data) {
@@ -103,10 +107,12 @@ async function create(data) {
     const currentUser = await raintechAuth.check();
     if (safe.isEmpty(data.project_name )) throw new ProjectException({ project_name: 'Project name is empty'});
     const sData = Object.assign({ certificate: currentUser.certificate }, data);
-    await loader.json('/api/projects', {
+    const rData = await loader.json('/api/projects', {
         method: 'POST',
         data: sData
     });
+    const item = rData.rows[0];
+    return formatProject(item);
 }
 
 async function remove(data) {

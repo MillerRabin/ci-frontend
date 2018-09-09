@@ -234,7 +234,7 @@ loader.application = async (module, deps) => {
     return apps[module];
 };
 
-loader.wait = async (module, timeout = 5000) => {
+loader.wait = async (module, timeout = 10000) => {
     if (module == null) throw new Error('module is not defined');
     if (applications[module] == null) applications[module] = createLoader();
     applications[module].loader.timer = setTimeout(() => {

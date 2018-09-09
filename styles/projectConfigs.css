@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    height: calc(92% - 1rem);
+    height: calc(88% - 1rem);
     overflow-x: hidden;
     overflow-y: auto;
     margin-bottom: 1rem;
@@ -47,7 +47,8 @@
     justify-content: space-between;
     width: 100%;
     padding: 0 4rem 0 4rem;
-    height: 8%;
+    height: 12%;
+    flex-wrap: wrap;
 }
 
 .ProjectConfigs .buttons .submit {
@@ -65,4 +66,14 @@
 
 .ProjectConfigs .buttons .submit.cancel:hover {
     background-color: rgba(255, 255, 255, 0.3);
+}
+
+.ProjectConfigs .message {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    visibility: hidden;
+}
+
+.ProjectConfigs .message.show {
+    visibility: visible;
 }
