@@ -10,6 +10,85 @@ class ProjectException extends Error {
     }
 }
 
+const defCredentials = {
+    host: 'your deploy host',
+    user: 'deploy user',
+    password: 'your pass'
+};
+
+const defInit = [
+    'git clone your-project.git /path/to/your/project',
+    'cd /path/to/your/project/your-project',
+    'git pull origin production',
+    '{"cwd":"/other/path","command": "other-path-command"}'
+];
+
+const defTest = [
+    'cd /path/to/your/project/your-project'
+];
+
+const defDeploy = [
+    'git reset --hard HEAD',
+    'git pull origin production',
+    '{"cwd":"/other/path","command": "other-path-command"}'
+];
+
+const defReload = [
+    'sudo systemctl reload youservice'
+];
+
+const defDirectory = {
+    cwd: '/path/to/your/project'
+};
+
+const defCredentialsStr = objectToString(defCredentials);
+const defDirectoryStr = objectToString(defDirectory);
+const defInitStr = commandsToString(defInit);
+const defTestStr = commandsToString(defTest);
+const defDeployStr = commandsToString(defDeploy);
+const defReloadStr = commandsToString(defReload);
+
+function getValidConfigs(configs, defs) {
+    const res = {};
+    if (configs == null) {
+        res['main'] = defs;
+        return res;
+    }
+    if (Array.isArray(configs)) {
+        res['main'] = configs;
+        return res;
+    }
+
+    return configs;
+}
+
+function mapConfigs(configs, iterateFunc, defs) {
+    const res = {};
+    const conf = getValidConfigs(configs, defs);
+    for (let key in conf) {
+        if (!conf.hasOwnProperty(key)) continue;
+        if (typeof(conf[key]) == 'string') {
+            res[key] = conf[key];
+            continue;
+        }
+        res[key] = iterateFunc(conf[key]);
+    }
+    return res;
+}
+
+function objectFromString(configs, defs) {
+    return mapConfigs(configs, (str) => {
+        const lines = str.split('\n');
+        const obj = {};
+        for (let line of lines) {
+            const [key, value] = line.split(':');
+            if (value == null) continue;
+            obj[key.trim()] = value.trim();
+        }
+        return obj;
+    }, defs);
+}
+
 function objectToString(obj) {
     const res = [];
     for (let key in obj) {
@@ -19,15 +98,8 @@ function objectToString(obj) {
     return res.join('\n');
 }
 
-function objectFromString(str) {
-    const lines = str.split('\n');
-    const obj = {};
-    for (let line of lines) {
-        const [key, value] = line.split(':');
-        if (value == null) continue;
-        obj[key.trim()] = value.trim();
-    }
-    return obj;
+function configObjectToString(configs, defs) {
+    return mapConfigs(configs, objectToString, defs);
 }
 
 function commandsToString(commands) {
@@ -42,28 +114,33 @@ function commandsToString(commands) {
     return res.join('\n');
 }
 
-function stringToCommands(str) {
-    const commands = str.split('\n');
-    const res = [];
-    for (let cmd of commands) {
-        try {
-            res.push(JSON.parse(cmd));
-        } catch (e) {
-            res.push(cmd);
-        }
-    }
-    return res;
+function configCommandsToString(configs, defs) {
+    return mapConfigs(configs, commandsToString, defs);
 }
 
+function stringToCommands(configs, defs) {
+    return mapConfigs(configs, (str) => {
+        const commands = str.split('\n');
+        const res = [];
+        for (let cmd of commands) {
+            try {
+                res.push(JSON.parse(cmd));
+            } catch (e) {
+                res.push(cmd);
+            }
+        }
+    }, defs);
+}
 
 const projectHash = {};
 function formatProject(item) {
     projectHash[item.id] = item;
-    item.init = (item.init == null) ? '' : commandsToString(item.init);
-    item.test = (item.test == null) ? '' : commandsToString(item.test);
-    item.deploy = (item.deploy == null) ? '' : commandsToString(item.deploy);
-    item.reload = (item.reload == null) ? '' : commandsToString(item.reload);
-    item.credentials = objectToString(item.credentials);
+    item.init = configCommandsToString(item.init, defInit);
+    item.test = configCommandsToString(item.test, defTest);
+    item.deploy = configCommandsToString(item.deploy, defDeploy);
+    item.reload = configCommandsToString(item.reload, defReload);
+    item.server_credentials = configObjectToString(item.server_credentials, defCredentials);
+    item.directory = configObjectToString(item.directory, defDirectory);
     return item;
 }
 
@@ -80,11 +157,12 @@ async function get(data) {
 async function update(data) {
     await raintechAuth.check();
     const sData = Object.assign({ certificate: raintechAuth.currentUser.certificate }, data);
-    if (typeof(sData.init) == 'string') sData.init = stringToCommands(sData.init);
-    if (typeof(sData.test) == 'string') sData.test = stringToCommands(sData.test);
-    if (typeof(sData.deploy) == 'string') sData.deploy = stringToCommands(sData.deploy);
-    if (typeof(sData.reload) == 'string') sData.reload = stringToCommands(sData.reload);
-    if (typeof(sData.credentials) == 'string') sData.credentials = objectFromString(sData.credentials);
+    sData.init = stringToCommands(sData.init, defInitStr);
+    sData.test = stringToCommands(sData.test, defTestStr);
+    sData.deploy = stringToCommands(sData.deploy, defDeployStr);
+    sData.reload = stringToCommands(sData.reload, defReloadStr);
+    sData.server_credentials = objectFromString(sData.server_credentials, defCredentialsStr);
+    sData.directory = objectFromString(sData.directory, defDirectoryStr);
 
     await loader.json('/api/projects', {
         method: 'PUT',
@@ -124,6 +202,13 @@ async function remove(data) {
     });
 }
 
+function createConfig() {
+
+}
+
+function deleteConfig() {
+
+}
 
 export default {
     get: get,
@@ -131,6 +216,8 @@ export default {
     execute: execute,
     create: create,
     delete: remove,
+    createConfig: createConfig,
+    deleteConfig: deleteConfig,
     hash: projectHash,
     Exception: ProjectException
 }

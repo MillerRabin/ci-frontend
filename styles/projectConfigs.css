@@ -6,44 +6,40 @@
 }
 
 .ProjectConfigs .layout {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    display: block;
     overflow-x: visible;
     overflow-y: auto;
     margin-bottom: 1rem;
     padding-right: 1rem;
 }
 
-.ProjectConfigs .layout label {
+.ProjectConfigs .row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.ProjectConfigs .row label {
     display: block;
     width: 48%;
     margin-bottom: 1rem;
 }
 
-.ProjectConfigs .layout label:nth-child(1) {
-    margin-bottom: 0;
-}
-
-.ProjectConfigs .layout label:nth-child(2) {
-    margin-bottom: 0;
-}
-
-.ProjectConfigs .layout label.full {
+.ProjectConfigs .row label.full {
     width: 100%;
 }
 
-.ProjectConfigs .layout label span {
+.ProjectConfigs .row label span {
     display: block;
 }
 
-.ProjectConfigs .layout label span.hint {
+.ProjectConfigs .row label span.hint {
     font-style: italic;
     color: #cccccc;
     font-size: 0.7rem;
 }
 
-.ProjectConfigs .layout label textarea {
+.ProjectConfigs .row label textarea {
     display: block;
     width: 100%;
     min-height: 5vw;
@@ -51,7 +47,7 @@
     max-width: 100%;
 }
 
-.ProjectConfigs .layout label input {
+.ProjectConfigs .row label input {
     display: block;
     width: 100%;
 }
@@ -89,4 +85,9 @@
 
 .ProjectConfigs .message.show {
     visibility: visible;
+}
+
+.ProjectConfigs .tab-content {
+    display: flex;
+    flex-wrap: wrap;
 }

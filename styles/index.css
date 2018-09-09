@@ -286,8 +286,20 @@ dialog input[type="checkbox"] {
     text-align: center;
     color: inherit;
     border-bottom: 0.069vw solid transparent;
-    margin: 0 0 0.5rem 1px;
+    margin: 0 0.5rem 0.5rem 1px;
 }
+
+.tabs .tab.new {
+    color: #ff603d;
+    display: block;
+    padding: 0 0.7rem 0 0.7rem;
+    border: 1px solid transparent;
+}
+
+.tabs .tab.new:hover {
+    border: 1px solid #ff603d;
+}
+
 
 .tabs .tab.active {
     border-bottom: 0.069vw solid #ff603d;

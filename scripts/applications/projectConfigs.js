@@ -15,8 +15,13 @@ loader.application('projectConfigs', [async () => {
             removeDialog: null,
             deleteMessage: '',
             errors: {},
-            tabIndex: 0
+            configs: []
         }
+    }
+
+    function getConfigs(project) {
+        const obj = project.init;
+        return Object.keys(obj);
     }
 
     async function getProject(vm) {
@@ -25,9 +30,11 @@ loader.application('projectConfigs', [async () => {
         Vue.set(vm, 'active', query.project);
         const pData = await projects.get({ id: query.project });
         const cp = pData[0];
+        const configs = getConfigs(cp);
+        Vue.set(vm, 'configs', configs);
         if (vm.editorHash[cp.id] == null)
-            Vue.set(vm.editorHash, cp.id, cp);
-        vm.defaults[cp.id] = Object.assign({}, cp);
+            Vue.set(vm.editorHash, cp.id, Object.assign({ currentConfig: configs[0] }, cp));
+        vm.defaults[cp.id] = Object.assign({ currentConfig: configs[0] }, cp);
     }
 
     function getDefaults(vm) {
@@ -35,8 +42,6 @@ loader.application('projectConfigs', [async () => {
         if (index == null) return null;
         return vm.defaults[index];
     }
-
-
 
     await loader.createVueTemplate({ path: '/pages/projectConfigs.html', id: 'ProjectConfigs-Template' });
     const res = {};
