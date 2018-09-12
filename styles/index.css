@@ -289,6 +289,10 @@ dialog input[type="checkbox"] {
     margin: 0 0.5rem 0.5rem 1px;
 }
 
+.tabs .tab:nth-last-child(2) {
+    margin-right: 0;
+}
+
 .tabs .tab.new {
     color: #ff603d;
     display: block;
