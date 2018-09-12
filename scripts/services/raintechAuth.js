@@ -35,6 +35,7 @@ function rewriteCurrentUser(data) {
     messages.send('user.changed', currentUser);
 }
 
+let checkCertificatePromise = null;
 async function getCurrentUser() {
     if (currentUser.certificate != null) return currentUser;
     const search = location.getSearch();
@@ -43,7 +44,9 @@ async function getCurrentUser() {
         clearCurrentUser();
         return null;
     }
-    await checkCertificate({ certificate: cert });
+    checkCertificatePromise = (checkCertificatePromise == null) ? checkCertificate({ certificate: cert }) : checkCertificatePromise;
+    await checkCertificatePromise;
+    checkCertificatePromise = null;
     return currentUser;
 }
 
@@ -126,7 +129,7 @@ async function update(data) {
 }
 
 async function check() {
-    const currentUser = await getCurrentUser();
+    const currentUser = getCurrentUser();
     if (currentUser == null) throw new RaintechAuthException({ message: 'User is not authorized'});
     return currentUser;
 }

@@ -48,6 +48,33 @@ const defTestStr = commandsToString(defTest);
 const defDeployStr = commandsToString(defDeploy);
 const defReloadStr = commandsToString(defReload);
 
+function getConfigKeys(project) {
+    return new Set([
+        ...Object.keys(project.init),
+        ...Object.keys(project.test),
+        ...Object.keys(project.deploy),
+        ...Object.keys(project.reload),
+        ...Object.keys(project.server_credentials),
+        ...Object.keys(project.directory)
+    ]);
+}
+
+function createKeys(configs, keys, def) {
+    for (let key of keys) {
+        if (configs[key] == null) configs[key] = def;
+    }
+}
+
+
+function syncConfigKeys(project) {
+    const keys = getConfigKeys(project);
+    createKeys(project.init, keys, '');
+    createKeys(project.test, keys, '');
+    createKeys(project.deploy, keys, '');
+    createKeys(project.reload, keys, '');
+    createKeys(project.server_credentials, keys, '');
+}
+
 function getValidConfigs(configs, defs) {
     const res = {};
     if (configs == null) {
@@ -141,6 +168,7 @@ function formatProject(item) {
     item.reload = configCommandsToString(item.reload, defReload);
     item.server_credentials = configObjectToString(item.server_credentials, defCredentials);
     item.directory = configObjectToString(item.directory, defDirectory);
+    syncConfigKeys(item);
     return item;
 }
 
@@ -202,13 +230,14 @@ async function remove(data) {
     });
 }
 
-function createConfig() {
-
+function createConfig(project, name) {
+    if (safe.isEmpty(name)) throw new ProjectException({ message: 'Configuration name can`t be empty'});
+    const keys = getConfigKeys(project);
+    if (keys.has(name)) throw new ProjectException({ message: `Configuration ${name} already exists`});
+    project.init[name] = '';
+    syncConfigKeys(project);
 }
 
-function deleteConfig() {
-
-}
 
 export default {
     get: get,
@@ -216,8 +245,7 @@ export default {
     execute: execute,
     create: create,
     delete: remove,
-    createConfig: createConfig,
-    deleteConfig: deleteConfig,
     hash: projectHash,
+    createConfig: createConfig,
     Exception: ProjectException
 }

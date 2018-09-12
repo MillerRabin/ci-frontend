@@ -3,6 +3,7 @@ import projects from '/scripts/services/projects.js';
 import location from '/scripts/services/location.js';
 import raintechAuth from '/scripts/services/raintechAuth.js';
 import projectList from '/scripts/applications/projectList.js';
+import safe from '/scripts/services/safe.js';
 
 loader.application('projectConfigs', [async () => {
     function init() {
@@ -13,28 +14,27 @@ loader.application('projectConfigs', [async () => {
             message: null,
             disabled: false,
             removeDialog: null,
+            configurationDialog: null,
             deleteMessage: '',
-            errors: {},
-            configs: []
+            configurationName: '',
+            errors: {}
         }
     }
 
     function getConfigs(project) {
-        const obj = project.init;
-        return Object.keys(obj);
+        return Object.keys(project.init);
     }
 
     async function getProject(vm) {
         const query = location.getSearch();
         if (query.project == null) return null;
-        Vue.set(vm, 'active', query.project);
         const pData = await projects.get({ id: query.project });
+        Vue.set(vm, 'active', query.project);
         const cp = pData[0];
         const configs = getConfigs(cp);
-        Vue.set(vm, 'configs', configs);
         if (vm.editorHash[cp.id] == null)
-            Vue.set(vm.editorHash, cp.id, Object.assign({ currentConfig: configs[0] }, cp));
-        vm.defaults[cp.id] = Object.assign({ currentConfig: configs[0] }, cp);
+            Vue.set(vm.editorHash, cp.id, Object.assign({ currentConfig: configs[0], configs: configs }, cp));
+        vm.defaults[cp.id] = Object.assign({}, cp);
     }
 
     function getDefaults(vm) {
@@ -92,11 +92,31 @@ loader.application('projectConfigs', [async () => {
                 this.deleteMessage = defs.project_name;
                 this.removeDialog.showModal();
             },
-            hideRemoveDialog: function () {
+            hideDialog: function () {
                 this.removeDialog.close();
+                this.configurationDialog.close();
             },
             cancel: function () {
 
+            },
+            newConfigurationDialog: function () {
+                this.configurationName = '';
+                this.configurationDialog.showModal();
+            },
+            newConfiguration: function () {
+                Vue.set(this,'errors', {});
+                this.disabled = true;
+                try {
+                    projects.createConfig(this.current, this.configurationName);
+                    this.current.configs = getConfigs(this.current);
+                    this.hideDialog();
+                } catch (e) {
+                    Vue.set(this,'errors', e);
+                }
+                this.disabled = false;
+            },
+            setActiveTab: function (tab) {
+                this.current.currentConfig = tab;
             }
         },
         computed: {
@@ -115,7 +135,7 @@ loader.application('projectConfigs', [async () => {
         },
         mounted: function () {
             this.removeDialog = this.$el.querySelector('.removeDialog');
-            getProject(this);
+            this.configurationDialog = this.$el.querySelector('.configurationDialog');
             raintechAuth.onUserChanged(() => {
                 getProject(this);
             });
