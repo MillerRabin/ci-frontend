@@ -22,7 +22,7 @@ loader.application('projectConfigs', [async () => {
     }
 
     function getConfigs(project) {
-        return Object.keys(project.init);
+        return Object.keys(project.project_data);
     }
 
     async function getProject(vm) {
@@ -123,6 +123,10 @@ loader.application('projectConfigs', [async () => {
             current: function () {
                 if (this.active == null) return null;
                 return this.editorHash[this.active];
+            },
+            currentData: function () {
+                if (this.current == null) return null;
+                return current.project_data[current.currentConfig];
             }
         },
         watch:{

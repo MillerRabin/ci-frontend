@@ -18,11 +18,11 @@
                 <div class="labels">
                     <label class="full">
                         <span>Server credentials</span>
-                        <textarea v-model="current.server_credentials[tab]" v-bind:disabled="disabled" tabindex="5"></textarea>
+                        <textarea v-model="current.project_data[tab].credentials" v-bind:disabled="disabled" tabindex="5"></textarea>
                     </label>
                     <label class="full">
                         <span>Server project directory</span>
-                        <input v-model="current.directory[tab]" v-bind:disabled="disabled" tabindex="6"/>
+                        <input v-model="current.project_data[tab].directory" v-bind:disabled="disabled" tabindex="6"/>
                     </label>
                 </div>
                 <div class="config-buttons">
@@ -32,22 +32,22 @@
                 <label>
                     <span>Test commands</span>
                     <span class="hint">The commands to check the project exists on the server</span>
-                    <textarea v-model="current.test[tab]" v-bind:disabled="disabled" tabindex="7"></textarea>
+                    <textarea v-model="current.project_data[tab].test" v-bind:disabled="disabled" tabindex="7"></textarea>
                 </label>
                 <label>
                     <span>Init commands</span>
                     <span class="hint">Executed when the project doesn't exists on the server</span>
-                    <textarea v-model="current.init[tab]" v-bind:disabled="disabled" tabindex="8"></textarea>
+                    <textarea v-model="current.project_data[tab].init" v-bind:disabled="disabled" tabindex="8"></textarea>
                 </label>
                 <label>
                     <span>Deploy commands</span>
                     <span class="hint">Executed when the project should be updated on the server</span>
-                    <textarea v-model="current.deploy[tab]" v-bind:disabled="disabled" tabindex="9"></textarea>
+                    <textarea v-model="current.project_data[tab].deploy" v-bind:disabled="disabled" tabindex="9"></textarea>
                 </label>
                 <label>
                     <span>Reload commands</span>
                     <span class="hint">The commands to reload after succcessfull update if needed</span>
-                    <textarea v-model="current.reload[tab]" v-bind:disabled="disabled" tabindex="9"></textarea>
+                    <textarea v-model="current.project_data[tab].reload" v-bind:disabled="disabled" tabindex="9"></textarea>
                 </label>
             </div>
         </div>

@@ -41,22 +41,15 @@ const defDirectory = {
     cwd: '/path/to/your/project'
 };
 
-const defCredentialsStr = objectToString(defCredentials);
+/*const defCredentialsStr = objectToString(defCredentials);
 const defDirectoryStr = objectToString(defDirectory);
 const defInitStr = commandsToString(defInit);
 const defTestStr = commandsToString(defTest);
 const defDeployStr = commandsToString(defDeploy);
-const defReloadStr = commandsToString(defReload);
+const defReloadStr = commandsToString(defReload);*/
 
 function getConfigKeys(project) {
-    return new Set([
-        ...Object.keys(project.init),
-        ...Object.keys(project.test),
-        ...Object.keys(project.deploy),
-        ...Object.keys(project.reload),
-        ...Object.keys(project.server_credentials),
-        ...Object.keys(project.directory)
-    ]);
+    return Object.keys(project.project_data);
 }
 
 function createKeys(configs, keys, def) {
@@ -75,21 +68,20 @@ function syncConfigKeys(project) {
     createKeys(project.server_credentials, keys, '');
 }
 
-function getValidConfigs(configs, defs) {
-    const res = {};
-    if (configs == null) {
-        res['main'] = defs;
-        return res;
-    }
-    if (Array.isArray(configs)) {
-        res['main'] = configs;
-        return res;
-    }
-
+function getValidConfigs(configs) {
     return configs;
 }
 
 function mapConfigs(configs, iterateFunc, defs) {
+    function iterateConfigs(configs) {
+        const res = {};
+        for (let key in configs) {
+            if (!configs.hasOwnProperty(key)) continue;
+            res[key] = iterateFunc(configs[key]);
+        }
+        return res;
+    }
+
     const res = {};
     const conf = getValidConfigs(configs, defs);
     for (let key in conf) {
@@ -98,7 +90,8 @@ function mapConfigs(configs, iterateFunc, defs) {
             res[key] = conf[key];
             continue;
         }
-        res[key] = iterateFunc(conf[key]);
+        res[key] = iterateConfigs(conf[key]);
+
     }
     return res;
 }
@@ -131,6 +124,8 @@ function configObjectToString(configs, defs) {
 
 function commandsToString(commands) {
     const res = [];
+    if (typeof(commands) == 'string') return commands;
+    if (!Array.isArray(commands)) return objectToString(commands);
     for (let cmd of commands) {
         if (typeof(cmd) == 'object') {
             res.push(JSON.stringify(cmd));
@@ -141,8 +136,8 @@ function commandsToString(commands) {
     return res.join('\n');
 }
 
-function configCommandsToString(configs, defs) {
-    return mapConfigs(configs, commandsToString, defs);
+function configCommandsToString(projectData, defs) {
+    return mapConfigs(projectData, commandsToString, defs);
 }
 
 function stringToCommands(configs, defs) {
@@ -162,13 +157,8 @@ function stringToCommands(configs, defs) {
 const projectHash = {};
 function formatProject(item) {
     projectHash[item.id] = item;
-    item.init = configCommandsToString(item.init, defInit);
-    item.test = configCommandsToString(item.test, defTest);
-    item.deploy = configCommandsToString(item.deploy, defDeploy);
-    item.reload = configCommandsToString(item.reload, defReload);
-    item.server_credentials = configObjectToString(item.server_credentials, defCredentials);
-    item.directory = configObjectToString(item.directory, defDirectory);
-    syncConfigKeys(item);
+    item.project_data = configCommandsToString(item.project_data, {});
+    //syncConfigKeys(item);
     return item;
 }
 
@@ -185,12 +175,12 @@ async function get(data) {
 async function update(data) {
     await raintechAuth.check();
     const sData = Object.assign({ certificate: raintechAuth.currentUser.certificate }, data);
-    sData.init = stringToCommands(sData.init, defInitStr);
-    sData.test = stringToCommands(sData.test, defTestStr);
-    sData.deploy = stringToCommands(sData.deploy, defDeployStr);
-    sData.reload = stringToCommands(sData.reload, defReloadStr);
-    sData.server_credentials = objectFromString(sData.server_credentials, defCredentialsStr);
-    sData.directory = objectFromString(sData.directory, defDirectoryStr);
+    sData.init = stringToCommands(sData.init);
+    sData.test = stringToCommands(sData.test);
+    sData.deploy = stringToCommands(sData.deploy);
+    sData.reload = stringToCommands(sData.reload);
+    sData.server_credentials = objectFromString(sData.server_credentials);
+    sData.directory = objectFromString(sData.directory);
 
     await loader.json('/api/projects', {
         method: 'PUT',
