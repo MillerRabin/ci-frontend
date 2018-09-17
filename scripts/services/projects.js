@@ -10,6 +10,10 @@ class ProjectException extends Error {
     }
 }
 
+const defConfig = {
+    name: 'main'
+};
+
 /*const defCredentials = {
     host: 'your deploy host',
     user: 'deploy user',
@@ -51,6 +55,7 @@ const defReloadStr = commandsToString(defReload);*/
 const projectHash = {};
 function formatProject(item) {
     projectHash[item.id] = item;
+    if (item.project_data == null) item.project_data = [defConfig];
     return item;
 }
 

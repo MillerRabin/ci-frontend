@@ -13,7 +13,7 @@ loader.application('projectConfigs', [async () => {
             active: null,
             message: null,
             disabled: false,
-            removeDialog: null,
+            rmDialog: null,
             rmConfigurationDialog: null,
             configurationDialog: null,
             renameDialog: null,
@@ -116,7 +116,6 @@ loader.application('projectConfigs', [async () => {
         const projectData = configStringToCommands(currentProject.project_data, ['credentials']);
         const defs = vm.defaults[vm.active];
         defs.project_data = projectData;
-        console.log(defs);
         return defs;
     }
 
@@ -186,7 +185,7 @@ loader.application('projectConfigs', [async () => {
             removeDialog: function () {
                 const defs = this.defaults[this.active];
                 this.deleteMessage = defs.project_name;
-                this.removeDialog.showModal();
+                this.rmDialog.showModal();
             },
             removeConfigurationDialog: function () {
                 this.deleteMessage = this.current.currentConfig.name;
@@ -205,7 +204,8 @@ loader.application('projectConfigs', [async () => {
                 this.disabled = false;
             },
             hideDialog: function () {
-                this.removeDialog.close();
+                this.rmDialog.close();
+                this.rmConfigurationDialog.close();
                 this.configurationDialog.close();
                 this.renameDialog.close();
             },
@@ -264,7 +264,7 @@ loader.application('projectConfigs', [async () => {
             return init();
         },
         mounted: function () {
-            this.removeDialog = this.$el.querySelector('.removeDialog');
+            this.rmDialog = this.$el.querySelector('.removeDialog');
             this.configurationDialog = this.$el.querySelector('.configurationDialog');
             this.renameDialog = this.$el.querySelector('.renameDialog');
             this.rmConfigurationDialog = this.$el.querySelector('.removeConfigurationDialog');
