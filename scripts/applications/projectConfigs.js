@@ -14,15 +14,110 @@ loader.application('projectConfigs', [async () => {
             message: null,
             disabled: false,
             removeDialog: null,
+            rmConfigurationDialog: null,
             configurationDialog: null,
+            renameDialog: null,
             deleteMessage: '',
             configurationName: '',
             errors: {}
         }
     }
 
-    function getConfigs(project) {
-        return Object.keys(project.project_data);
+    function mapConfigs(configs, iterateFunc) {
+        function iterateConfigs(configs) {
+            const res = {};
+            for (let key in configs) {
+                if (!configs.hasOwnProperty(key)) continue;
+                res[key] = iterateFunc(configs[key], key);
+            }
+            return res;
+        }
+
+        const res = [];
+        for (let conf of configs) {
+            if (conf == null) continue;
+            if (safe.isEmpty(conf.name)) continue;
+            if (typeof(conf) == 'string') {
+                res.push(conf);
+                continue;
+            }
+            res.push(iterateConfigs(conf));
+
+        }
+        return res;
+    }
+
+    function objectToString(obj) {
+        const res = [];
+        for (let key in obj) {
+            if (!obj.hasOwnProperty(key)) continue;
+            res.push(`${key}: ${obj[key]}`);
+        }
+        return res.join('\n');
+    }
+
+    function commandsToString(commands) {
+        const res = [];
+        if (typeof(commands) == 'string') return commands;
+        if (!Array.isArray(commands)) return objectToString(commands);
+        for (let cmd of commands) {
+            if (typeof(cmd) == 'object') {
+                res.push(JSON.stringify(cmd));
+                continue;
+            }
+            res.push(cmd);
+        }
+        return res.join('\n');
+    }
+
+    function stringToObject(str) {
+        const obj = {};
+        const lines = str.split('\n');
+        for (let line of lines) {
+            const [key, value] = line.split(':');
+            if (value == null) continue;
+            obj[key.trim()] = value.trim();
+        }
+        return obj;
+    }
+
+    function configCommandsToString(projectData) {
+        return mapConfigs(projectData, commandsToString);
+    }
+
+    function configStringToCommands(projectData, objects) {
+        return mapConfigs(projectData, (text, key) => {
+            if (safe.isEmpty(text)) return null;
+            if (objects.includes(key))
+                return stringToObject(text);
+            const res = [];
+            const commands = text.split('\n');
+            if (commands.length == 1) return text;
+            for (let cmd of commands) {
+                try {
+                    res.push(JSON.parse(cmd));
+                } catch (e) {
+                    res.push(cmd);
+                }
+            }
+            return res;
+        });
+    }
+
+    function createEditor(currentProject) {
+        const projectData = configCommandsToString(currentProject.project_data);
+        const editor = Object.assign({}, currentProject);
+        editor.project_data = projectData;
+        editor.currentConfig = projectData[0];
+        return editor;
+    }
+
+    function applyEditor(vm, currentProject) {
+        const projectData = configStringToCommands(currentProject.project_data, ['credentials']);
+        const defs = vm.defaults[vm.active];
+        defs.project_data = projectData;
+        console.log(defs);
+        return defs;
     }
 
     async function getProject(vm) {
@@ -31,16 +126,10 @@ loader.application('projectConfigs', [async () => {
         const pData = await projects.get({ id: query.project });
         Vue.set(vm, 'active', query.project);
         const cp = pData[0];
-        const configs = getConfigs(cp);
+        const editor = createEditor(cp);
         if (vm.editorHash[cp.id] == null)
-            Vue.set(vm.editorHash, cp.id, Object.assign({ currentConfig: configs[0], configs: configs }, cp));
-        vm.defaults[cp.id] = Object.assign({}, cp);
-    }
-
-    function getDefaults(vm) {
-        const index = (vm.active == null) ? location.getSearch().project : vm.active;
-        if (index == null) return null;
-        return vm.defaults[index];
+            Vue.set(vm.editorHash, cp.id, editor);
+        vm.defaults[cp.id] = cp;
     }
 
     await loader.createVueTemplate({ path: '/pages/projectConfigs.html', id: 'ProjectConfigs-Template' });
@@ -52,9 +141,11 @@ loader.application('projectConfigs', [async () => {
         template: '#ProjectConfigs-Template',
         methods: {
             update: async function () {
+                Vue.set(this, 'errors', {});
                 this.disabled = true;
                 try {
-                    this.message = await projects.update(this.current);
+                    const project = applyEditor(this, this.current);
+                    this.message = await projects.update(project);
                     this.disabled = false;
                 } catch (e) {
                     console.log(e);
@@ -63,6 +154,7 @@ loader.application('projectConfigs', [async () => {
 
             },
             execute: async function () {
+                Vue.set(this, 'errors', {});
                 this.disabled = true;
                 try {
                     this.message = await projects.execute(this.current);
@@ -79,7 +171,7 @@ loader.application('projectConfigs', [async () => {
                     this.message = await projects.delete(this.current);
                     this.disabled = false;
                     projectList.reload();
-                    this.hideRemoveDialog();
+                    this.hideDialog();
                     this.$router.push({path: '/', params: {} });
                 } catch (e) {
                     console.log(e);
@@ -87,17 +179,36 @@ loader.application('projectConfigs', [async () => {
                     this.disabled = false;
                 }
             },
-            showRemoveDialog: function () {
-                const defs = getDefaults(this);
+            removeDialog: function () {
+                const defs = this.defaults[this.active];
                 this.deleteMessage = defs.project_name;
                 this.removeDialog.showModal();
+            },
+            removeConfigurationDialog: function () {
+                this.deleteMessage = this.current.currentConfig.name;
+                this.rmConfigurationDialog.showModal();
+            },
+            removeConfiguration: function () {
+                Vue.set(this,'errors', {});
+                this.disabled = true;
+                try {
+                    const currentTab = this.current.currentConfig;
+                    projects.removeConfig(this.current, currentTab.name);
+                    this.hideDialog();
+                } catch (e) {
+                    Vue.set(this,'errors', e);
+                }
+                this.disabled = false;
             },
             hideDialog: function () {
                 this.removeDialog.close();
                 this.configurationDialog.close();
+                this.renameDialog.close();
             },
             cancel: function () {
-
+                const defaults = this.defaults[this.active];
+                const editor = createEditor(defaults);
+                Vue.set(this.editorHash, defaults.id, editor);
             },
             newConfigurationDialog: function () {
                 this.configurationName = '';
@@ -108,7 +219,22 @@ loader.application('projectConfigs', [async () => {
                 this.disabled = true;
                 try {
                     projects.createConfig(this.current, this.configurationName);
-                    this.current.configs = getConfigs(this.current);
+                    this.hideDialog();
+                } catch (e) {
+                    Vue.set(this,'errors', e);
+                }
+                this.disabled = false;
+            },
+            renameConfigurationDialog: function () {
+                this.configurationName = '';
+                this.renameDialog.showModal();
+            },
+            renameConfiguration: function () {
+                Vue.set(this,'errors', {});
+                this.disabled = true;
+                try {
+                    const currentTab = this.current.currentConfig;
+                    projects.renameConfig(currentTab, this.configurationName);
                     this.hideDialog();
                 } catch (e) {
                     Vue.set(this,'errors', e);
@@ -123,10 +249,6 @@ loader.application('projectConfigs', [async () => {
             current: function () {
                 if (this.active == null) return null;
                 return this.editorHash[this.active];
-            },
-            currentData: function () {
-                if (this.current == null) return null;
-                return current.project_data[current.currentConfig];
             }
         },
         watch:{
@@ -140,6 +262,8 @@ loader.application('projectConfigs', [async () => {
         mounted: function () {
             this.removeDialog = this.$el.querySelector('.removeDialog');
             this.configurationDialog = this.$el.querySelector('.configurationDialog');
+            this.renameDialog = this.$el.querySelector('.renameDialog');
+            this.rmConfigurationDialog = this.$el.querySelector('.removeConfigurationDialog');
             raintechAuth.onUserChanged(() => {
                 getProject(this);
             });

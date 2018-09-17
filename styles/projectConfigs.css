@@ -132,3 +132,7 @@
 .ProjectConfigs .tabs .tab {
     margin-bottom: 0;
 }
+
+.ProjectConfigs dialog .submit {
+    margin: 0.5rem auto 0 auto;
+}

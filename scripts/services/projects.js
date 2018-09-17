@@ -10,7 +10,7 @@ class ProjectException extends Error {
     }
 }
 
-const defCredentials = {
+/*const defCredentials = {
     host: 'your deploy host',
     user: 'deploy user',
     password: 'your pass'
@@ -39,7 +39,7 @@ const defReload = [
 
 const defDirectory = {
     cwd: '/path/to/your/project'
-};
+};*/
 
 /*const defCredentialsStr = objectToString(defCredentials);
 const defDirectoryStr = objectToString(defDirectory);
@@ -48,117 +48,9 @@ const defTestStr = commandsToString(defTest);
 const defDeployStr = commandsToString(defDeploy);
 const defReloadStr = commandsToString(defReload);*/
 
-function getConfigKeys(project) {
-    return Object.keys(project.project_data);
-}
-
-function createKeys(configs, keys, def) {
-    for (let key of keys) {
-        if (configs[key] == null) configs[key] = def;
-    }
-}
-
-
-function syncConfigKeys(project) {
-    const keys = getConfigKeys(project);
-    createKeys(project.init, keys, '');
-    createKeys(project.test, keys, '');
-    createKeys(project.deploy, keys, '');
-    createKeys(project.reload, keys, '');
-    createKeys(project.server_credentials, keys, '');
-}
-
-function getValidConfigs(configs) {
-    return configs;
-}
-
-function mapConfigs(configs, iterateFunc, defs) {
-    function iterateConfigs(configs) {
-        const res = {};
-        for (let key in configs) {
-            if (!configs.hasOwnProperty(key)) continue;
-            res[key] = iterateFunc(configs[key]);
-        }
-        return res;
-    }
-
-    const res = {};
-    const conf = getValidConfigs(configs, defs);
-    for (let key in conf) {
-        if (!conf.hasOwnProperty(key)) continue;
-        if (typeof(conf[key]) == 'string') {
-            res[key] = conf[key];
-            continue;
-        }
-        res[key] = iterateConfigs(conf[key]);
-
-    }
-    return res;
-}
-
-function objectFromString(configs, defs) {
-    return mapConfigs(configs, (str) => {
-        const lines = str.split('\n');
-        const obj = {};
-        for (let line of lines) {
-            const [key, value] = line.split(':');
-            if (value == null) continue;
-            obj[key.trim()] = value.trim();
-        }
-        return obj;
-    }, defs);
-}
-
-function objectToString(obj) {
-    const res = [];
-    for (let key in obj) {
-        if (!obj.hasOwnProperty(key)) continue;
-        res.push(`${key}: ${obj[key]}`);
-    }
-    return res.join('\n');
-}
-
-function configObjectToString(configs, defs) {
-    return mapConfigs(configs, objectToString, defs);
-}
-
-function commandsToString(commands) {
-    const res = [];
-    if (typeof(commands) == 'string') return commands;
-    if (!Array.isArray(commands)) return objectToString(commands);
-    for (let cmd of commands) {
-        if (typeof(cmd) == 'object') {
-            res.push(JSON.stringify(cmd));
-            continue;
-        }
-        res.push(cmd);
-    }
-    return res.join('\n');
-}
-
-function configCommandsToString(projectData, defs) {
-    return mapConfigs(projectData, commandsToString, defs);
-}
-
-function stringToCommands(configs, defs) {
-    return mapConfigs(configs, (str) => {
-        const commands = str.split('\n');
-        const res = [];
-        for (let cmd of commands) {
-            try {
-                res.push(JSON.parse(cmd));
-            } catch (e) {
-                res.push(cmd);
-            }
-        }
-    }, defs);
-}
-
 const projectHash = {};
 function formatProject(item) {
     projectHash[item.id] = item;
-    item.project_data = configCommandsToString(item.project_data, {});
-    //syncConfigKeys(item);
     return item;
 }
 
@@ -175,12 +67,6 @@ async function get(data) {
 async function update(data) {
     await raintechAuth.check();
     const sData = Object.assign({ certificate: raintechAuth.currentUser.certificate }, data);
-    sData.init = stringToCommands(sData.init);
-    sData.test = stringToCommands(sData.test);
-    sData.deploy = stringToCommands(sData.deploy);
-    sData.reload = stringToCommands(sData.reload);
-    sData.server_credentials = objectFromString(sData.server_credentials);
-    sData.directory = objectFromString(sData.directory);
 
     await loader.json('/api/projects', {
         method: 'PUT',
@@ -222,18 +108,40 @@ async function remove(data) {
 
 function createConfig(project, name) {
     if (safe.isEmpty(name)) throw new ProjectException({ message: 'Configuration name can`t be empty'});
-    const keys = getConfigKeys(project);
-    if (keys.has(name)) throw new ProjectException({ message: `Configuration ${name} already exists`});
-    project.init[name] = '';
-    syncConfigKeys(project);
+    const eConfig = project.project_data.find(v => v.name == name);
+    if (eConfig != null) throw new ProjectException({ message: `Configuration ${name} already exists`});
+    project.project_data.push({
+       name: name,
+       credentials: '',
+       directory: '',
+       test: '',
+       init: '',
+       deploy: '',
+       reload: ''
+    });
 }
 
+function renameConfig(config, name) {
+    if (safe.isEmpty(name)) throw new ProjectException({ message: 'Configuration name can`t be empty'});
+    config.name = name;
+}
+
+function removeConfig(project, name) {
+    if (safe.isEmpty(name)) throw new ProjectException({ message: 'Configuration name can`t be empty'});
+    if (project.project_data.length == 1) throw new ProjectException({ message: "You can't delete single configuration"});
+    const eConfigIndex = project.project_data.findIndex(v => v.name == name);
+    if (eConfigIndex == -1) throw new ProjectException({ message: "Invalid configuration name"});
+    project.project_data.slice(eConfigIndex, 1);
+    return eConfigIndex;
+}
 
 export default {
     get: get,
     update: update,
     execute: execute,
     create: create,
+    renameConfig: renameConfig,
+    removeConfig: removeConfig,
     delete: remove,
     hash: projectHash,
     createConfig: createConfig,

@@ -10,44 +10,44 @@
                 <input v-model="current.branch" v-bind:disabled="disabled" tabindex="2"/>
             </label>
             <div class="tabs full">
-                <button class="tab focus" v-for="tab in current.configs" v-bind:class="{ active: tab == current.currentConfig }"
-                        v-text="tab" v-on:click="setActiveTab(tab)" tabindex="3"></button>
+                <button class="tab focus" v-for="tab in current.project_data" v-bind:class="{ active: tab == current.currentConfig }"
+                        v-text="tab.name" v-on:click="setActiveTab(tab)" tabindex="3"></button>
                 <button class="tab focus new" title="New configuration" v-on:click="newConfigurationDialog" tabindex="4">+</button>
             </div>
-            <div class="tab-content" v-for="tab in current.configs" v-if="tab == current.currentConfig">
+            <div class="tab-content" v-for="tab in current.project_data" v-if="tab == current.currentConfig">
                 <div class="labels">
                     <label class="full">
                         <span>Server credentials</span>
-                        <textarea v-model="current.project_data[tab].credentials" v-bind:disabled="disabled" tabindex="5"></textarea>
+                        <textarea v-model="tab.credentials" v-bind:disabled="disabled" tabindex="5"></textarea>
                     </label>
                     <label class="full">
                         <span>Server project directory</span>
-                        <input v-model="current.project_data[tab].directory" v-bind:disabled="disabled" tabindex="6"/>
+                        <input v-model="tab.directory" v-bind:disabled="disabled" tabindex="6"/>
                     </label>
                 </div>
                 <div class="config-buttons">
-                    <button class="submit focus green" tabindex="11">Rename config</button>
-                    <button class="submit focus" tabindex="12">Delete config</button>
+                    <button class="submit focus green" tabindex="11" v-on:click="renameConfigurationDialog">Rename config</button>
+                    <button class="submit focus" tabindex="12" v-on:click="removeConfigurationDialog">Delete config</button>
                 </div>
                 <label>
                     <span>Test commands</span>
                     <span class="hint">The commands to check the project exists on the server</span>
-                    <textarea v-model="current.project_data[tab].test" v-bind:disabled="disabled" tabindex="7"></textarea>
+                    <textarea v-model="tab.test" v-bind:disabled="disabled" tabindex="7"></textarea>
                 </label>
                 <label>
                     <span>Init commands</span>
                     <span class="hint">Executed when the project doesn't exists on the server</span>
-                    <textarea v-model="current.project_data[tab].init" v-bind:disabled="disabled" tabindex="8"></textarea>
+                    <textarea v-model="tab.init" v-bind:disabled="disabled" tabindex="8"></textarea>
                 </label>
                 <label>
                     <span>Deploy commands</span>
                     <span class="hint">Executed when the project should be updated on the server</span>
-                    <textarea v-model="current.project_data[tab].deploy" v-bind:disabled="disabled" tabindex="9"></textarea>
+                    <textarea v-model="tab.deploy" v-bind:disabled="disabled" tabindex="9"></textarea>
                 </label>
                 <label>
                     <span>Reload commands</span>
-                    <span class="hint">The commands to reload after succcessfull update if needed</span>
-                    <textarea v-model="current.project_data[tab].reload" v-bind:disabled="disabled" tabindex="9"></textarea>
+                    <span class="hint">The commands to reload after successful update if needed</span>
+                    <textarea v-model="tab.reload" v-bind:disabled="disabled" tabindex="9"></textarea>
                 </label>
             </div>
         </div>
@@ -55,8 +55,8 @@
             <div class="message" v-bind:class="{ show: (message != null) }" v-text="(message != null) ? message : 'no message'"></div>
             <button class="submit focus green" v-on:click="update" v-bind:disabled="disabled" tabindex="9">Update</button>
             <button class="submit focus blue" v-on:click="execute" v-bind:disabled="disabled" tabindex="9">Execute</button>
-            <button class="submit focus red" v-on:click="showRemoveDialog" v-bind:disabled="disabled" tabindex="9">Delete</button>
-            <button class="submit focus white" v-on:cick="cancel" v-bind:disabled="disabled" tabindex="9">Cancel</button>
+            <button class="submit focus red" v-on:click="removeDialog" v-bind:disabled="disabled" tabindex="9">Delete</button>
+            <button class="submit focus white" v-on:click="cancel" v-bind:disabled="disabled" tabindex="9">Cancel</button>
         </div>
     </div>
     <dialog class="removeDialog">
@@ -68,6 +68,15 @@
         <div class="error" v-if="errors.message != null" v-text="errors.message"></div>
         <button class="submit focus" v-on:click="remove">Delete</button>
     </dialog>
+    <dialog class="removeConfigurationDialog">
+        <button class="close focus" title="close" v-on:click="hideDialog"></button>
+        <h3>
+            Please confirm to delete
+            <span v-text="deleteMessage"></span>?
+        </h3>
+        <div class="error" v-if="errors.message != null" v-text="errors.message"></div>
+        <button class="submit focus" v-on:click="removeConfiguration">Delete</button>
+    </dialog>
     <dialog class="configurationDialog">
         <button class="close focus" title="close" v-on:click="hideDialog"></button>
         <label>
@@ -76,4 +85,14 @@
         <div class="error" v-if="errors.message != null" v-text="errors.message"></div>
         <button class="submit focus" v-on:click="newConfiguration">Create</button>
     </dialog>
+    <dialog class="renameDialog">
+        <button class="close focus" title="close" v-on:click="hideDialog"></button>
+        <label>
+            <input autofocus v-model="configurationName" placeholder="New configuration name" v-on:keypress.13="renameConfiguration"/>
+        </label>
+        <div class="error" v-if="errors.message != null" v-text="errors.message"></div>
+        <button class="submit focus" v-on:click="renameConfiguration">Rename</button>
+    </dialog>
+
+
 </div>
