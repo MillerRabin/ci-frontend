@@ -142,6 +142,7 @@ loader.application('projectConfigs', [async () => {
         methods: {
             update: async function () {
                 Vue.set(this, 'errors', {});
+                this.message = '';
                 this.disabled = true;
                 try {
                     const project = applyEditor(this, this.current);
@@ -149,18 +150,21 @@ loader.application('projectConfigs', [async () => {
                     this.disabled = false;
                 } catch (e) {
                     console.log(e);
+                    Vue.set(this, 'errors', e);
                     this.disabled = false;
                 }
 
             },
             execute: async function () {
                 Vue.set(this, 'errors', {});
+                this.message = '';
                 this.disabled = true;
                 try {
-                    this.message = await projects.execute(this.current);
+                    const project = applyEditor(this, this.current);
+                    this.message = await projects.execute(project);
                     this.disabled = false;
                 } catch (e) {
-                    console.log(e);
+                    Vue.set(this, 'errors', e);
                     this.disabled = false;
                 }
             },

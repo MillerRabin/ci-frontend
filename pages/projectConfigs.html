@@ -53,6 +53,7 @@
         </div>
         <div class="buttons">
             <div class="message" v-bind:class="{ show: (message != null) }" v-text="(message != null) ? message : 'no message'"></div>
+            <div class="error" v-if="errors.message" v-text="errors.message"></div>
             <button class="submit focus green" v-on:click="update" v-bind:disabled="disabled" tabindex="9">Update</button>
             <button class="submit focus blue" v-on:click="execute" v-bind:disabled="disabled" tabindex="9">Execute</button>
             <button class="submit focus red" v-on:click="removeDialog" v-bind:disabled="disabled" tabindex="9">Delete</button>

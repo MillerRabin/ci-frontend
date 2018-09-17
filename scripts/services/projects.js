@@ -79,10 +79,11 @@ async function execute(data) {
     await update(data);
     const currentUser = await raintechAuth.check();
     const sData = { id: data.id, certificate: currentUser.certificate };
-    await loader.json('/api/git/manual', {
+    const res = await loader.json('/api/git/manual', {
         method: 'POST',
         data: sData
     });
+    return res.message;
 }
 
 async function create(data) {

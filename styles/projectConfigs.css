@@ -136,3 +136,8 @@
 .ProjectConfigs dialog .submit {
     margin: 0.5rem auto 0 auto;
 }
+
+.ProjectConfigs .error {
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
