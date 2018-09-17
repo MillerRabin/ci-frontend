@@ -85,13 +85,16 @@ loader.application('projectConfigs', [async () => {
         return mapConfigs(projectData, commandsToString);
     }
 
-    function configStringToCommands(projectData, objects) {
+    function configStringToCommands(projectData, objects, strings) {
         return mapConfigs(projectData, (text, key) => {
             if (safe.isEmpty(text)) return null;
+            if (strings.includes(key))
+                return text;
             if (objects.includes(key))
                 return stringToObject(text);
             const res = [];
             const commands = text.split('\n');
+
             for (let cmd of commands) {
                 try {
                     res.push(JSON.parse(cmd));
@@ -112,7 +115,7 @@ loader.application('projectConfigs', [async () => {
     }
 
     function applyEditor(vm, currentProject) {
-        const projectData = configStringToCommands(currentProject.project_data, ['credentials']);
+        const projectData = configStringToCommands(currentProject.project_data, ['credentials'], ['name']);
         const defs = vm.defaults[vm.active];
         defs.project_data = projectData;
         return defs;
