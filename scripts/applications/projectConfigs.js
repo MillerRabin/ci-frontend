@@ -92,7 +92,6 @@ loader.application('projectConfigs', [async () => {
                 return stringToObject(text);
             const res = [];
             const commands = text.split('\n');
-            if (commands.length == 1) return text;
             for (let cmd of commands) {
                 try {
                     res.push(JSON.parse(cmd));
