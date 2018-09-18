@@ -115,7 +115,7 @@ loader.application('projectConfigs', [async () => {
     }
 
     function applyEditor(vm, currentProject) {
-        const projectData = configStringToCommands(currentProject.project_data, ['credentials'], ['name']);
+        const projectData = configStringToCommands(currentProject.project_data, ['credentials'], ['name', 'directory']);
         const defs = vm.defaults[vm.active];
         defs.project_data = projectData;
         return defs;
