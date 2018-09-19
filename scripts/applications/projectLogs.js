@@ -19,7 +19,11 @@ function printObject(object) {
 
 function getCommits(object) {
     try {
-        const commits = object.push.changes[0].commits;
+        const obj = object.request;
+        if (obj.push == null) return [{
+            message: 'manual deploy'
+        }];
+        const commits = obj.push.changes[0].commits;
         const res = [];
         for (let commit of commits) {
             res.push({
@@ -98,13 +102,21 @@ loader.application('projectLogs', [async () => {
             hasError: function (log) {
                 if (log.error != null) return true;
                 try {
-                    const deploy = log.deploy_results.deploy;
-                    if (deploy == null) return false;
-                    return deploy.success === false
+                    for (let config of log.deploy_results) {
+                        for (let key in config) {
+                            if (!config.hasOwnProperty(key)) continue;
+                            const item = config[key];
+                            if (item.success === false) return true;
+                        }
+                    }
+                    return false;
                 } catch (e) {
                     console.log(e);
                     return false;
                 }
+            },
+            hasConfigError: function (config) {
+                return config.entry.success === false;
             },
             getConfigs: function (log) {
                 if (log.deploy_results == null) return [];
@@ -153,13 +165,13 @@ loader.application('projectLogs', [async () => {
             },
             showError: function (log) {
                 if (log.error == null) return;
-                this.execCommand(log, {
+                this.setConfig(log, {
                     text: 'error',
                     entry: printObject(log.error)
                 })
             },
             showCommits: function (log) {
-                this.execCommand(log, {
+                this.setConfig(log, {
                     text: 'commits',
                     entry: getCommits(log.event_data)
                 });

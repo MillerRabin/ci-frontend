@@ -27,7 +27,7 @@
                 <td colspan="7" v-if="(log.options.currentConfig != null) && (log.options.currentConfig.text == 'text')" v-text="log.options.currentConfig.entry"></td>
                 <td colspan="7" v-if="(log.options.currentConfig != null) && (log.options.currentConfig.text == 'config')">
                     <div class="cmd-buttons">
-                        <button class="cmd-btn"
+                        <button class="cmd-btn" v-bind:class="{ cmdError: hasConfigError(btn) }"
                                 v-for="btn in getCommands(log.options.currentConfig.entry)"
                                 v-text="btn.text"
                                 v-on:click="setCommand(log, btn)">
