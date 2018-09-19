@@ -13,24 +13,27 @@
                 <td class="name column" v-text="log.project_name"></td>
                 <td class="branch column" v-text="log.branch"></td>
                 <td class="column command">
-                    <button v-on:click="showCommits(log)">Commits</button>
+                    <button class="cmd-btn" v-on:click="showCommits(log)">Commits</button>
                 </td>
                 <td v-if="log.error != null" class="column command">
                     <button v-on:click="showError(log)"></button>
                 </td>
-                <td class="column command" v-for="command in getCommands(log)">
-                    <button v-if="command.message == null" v-text="command.text" v-on:click="execCommand(log, command)"></button>
-                    <span v-if="command.message != null" v-text="command.message"></span>
+                <td class="column command" v-for="config in getConfigs(log)">
+                    <button v-if="config.message == null" v-text="config.name" v-on:click="setConfig(log, config)"></button>
+                    <span v-if="config.message != null" v-text="config.message"></span>
                 </td>
             </tr>
             <tr class="data" v-bind:class="{ show: log.options.showData }">
-                <td colspan="7" v-if="(log.options.currentCommand != null) && (log.options.currentCommand.text == 'text')" v-text="log.options.currentCommand.entry"></td>
-                <td colspan="7" v-if="(log.options.currentCommand != null) && ((log.options.currentCommand.text == 'deploy')||(log.options.currentCommand.text == 'test'))">
-                    <div>
-                        <span>Success:</span>
-                        <span v-text="log.options.currentCommand.entry.success ? 'true' : 'false'"></span>
+                <td colspan="7" v-if="(log.options.currentConfig != null) && (log.options.currentConfig.text == 'text')" v-text="log.options.currentConfig.entry"></td>
+                <td colspan="7" v-if="(log.options.currentConfig != null) && (log.options.currentConfig.text == 'config')">
+                    <div class="cmd-buttons">
+                        <button class="cmd-btn"
+                                v-for="btn in getCommands(log.options.currentConfig.entry)"
+                                v-text="btn.text"
+                                v-on:click="setCommand(log, btn)">
+                        </button>
                     </div>
-                    <table class="cmdTable">
+                    <table class="cmdTable" v-if="(log.options.currentCommand != null) && (log.options.showCommand)">
                         <thead>
                             <tr>
                                 <th>code</th>
@@ -41,6 +44,14 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <tr>
+                                <td colspan="7" class="success">
+                                    <div>
+                                        Success:
+                                        <span v-text="log.options.currentCommand.entry.success ? 'true' : 'false'"></span>
+                                    </div>
+                                </td>
+                            </tr>
                             <tr v-for="shell in log.options.currentCommand.entry.results" v-bind:class="{ cmdError: shell.code > 0 }">
                                 <td v-text="shell.code"></td>
                                 <td v-text="shell.command"></td>
@@ -51,7 +62,7 @@
                         </tbody>
                     </table>
                 </td>
-                <td colspan="7" v-if="(log.options.currentCommand != null) && (log.options.currentCommand.text == 'commits')">
+                <td colspan="7" v-if="(log.options.currentConfig != null) && (log.options.currentConfig.text == 'commits')">
                     <table>
                         <thead>
                             <tr>
@@ -60,7 +71,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="message in log.options.currentCommand.entry">
+                            <tr v-for="message in log.options.currentConfig.entry">
                                 <td v-text="message.author"></td>
                                 <td v-text="message.message"></td>
                             </tr>

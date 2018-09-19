@@ -91,3 +91,11 @@
 .ProjectLogs .cmdError {
     color: #ff603d;
 }
+
+.ProjectLogs .cmd-btn {
+    margin-right: 0.5rem;
+}
+
+.ProjectLogs .cmdTable tbody tr td.success {
+    text-align: left;
+}

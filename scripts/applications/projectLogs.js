@@ -9,8 +9,7 @@ function formatShellCommands(entry) {
 function parseCommand(command) {
     return {
         text: command.text,
-        entry: command.entry,
-        html: null,
+        entry: command.entry
     };
 }
 
@@ -61,7 +60,10 @@ loader.application('projectLogs', [async () => {
 
     function createOptions() {
         return {
-            showData: false
+            showData: false,
+            showCommand: false,
+            currentConfig: null,
+            currentCommand: null
         }
     }
     function mergeLogs(logData, logHash) {
@@ -104,27 +106,49 @@ loader.application('projectLogs', [async () => {
                     return false;
                 }
             },
-            getCommands: function (log) {
+            getConfigs: function (log) {
                 if (log.deploy_results == null) return [];
                 const res = [];
-                for (let key in log.deploy_results) {
-                    if (!log.deploy_results.hasOwnProperty(key)) continue;
+                for (let dr of log.deploy_results) {
                     res.push({
-                        text: key,
-                        entry: log.deploy_results[key]
+                        text: 'config',
+                        entry: dr,
+                        name: dr.name,
+                        show: false
                     });
                 }
                 return res;
             },
-            execCommand: function (log, command) {
-                if ((log.options.currentCommand != null) && (log.options.currentCommand.text == command.text)) {
+            setConfig: function (log, config) {
+                if ((log.options.currentConfig != null) && (log.options.currentConfig.text == config.text)) {
                     log.options.showData = false;
-                    log.options.currentCommand = null;
+                    log.options.currentConfig = null;
                     return;
-
                 }
                 log.options.showData = true;
-                Vue.set(log.options, 'currentCommand', parseCommand(command));
+                log.options.currentConfig = parseCommand(config);
+            },
+            setCommand: function (log, command) {
+                if ((log.options.currentCommand != null) && (log.options.currentCommand.text == command.text)) {
+                    log.options.showCommand = false;
+                    log.options.currentCommand = null;
+                    return;
+                }
+                log.options.showCommand = true;
+                log.options.currentCommand = command
+            },
+            getCommands: function (config) {
+                const res = [];
+                for (let key in config) {
+                    if (!config.hasOwnProperty(key)) continue;
+                    const item = config[key];
+                    if (typeof(item) == 'string') continue;
+                    res.push({
+                        text: key,
+                        entry: item
+                    });
+                }
+                return res;
             },
             showError: function (log) {
                 if (log.error == null) return;
