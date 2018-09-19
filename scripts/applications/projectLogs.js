@@ -142,7 +142,8 @@ loader.application('projectLogs', [async () => {
                 for (let key in config) {
                     if (!config.hasOwnProperty(key)) continue;
                     const item = config[key];
-                    if (typeof(item) == 'string') continue;
+                    if (item.results == null) continue;
+                    if (item.results.length == 0) continue;
                     res.push({
                         text: key,
                         entry: item

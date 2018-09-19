@@ -33,8 +33,16 @@
                                 v-on:click="setCommand(log, btn)">
                         </button>
                     </div>
-                    <table class="cmdTable" v-if="(log.options.currentCommand != null) && (log.options.showCommand)">
+                    <table class="cmdTable" v-if="(log.options.currentCommand != null) && (log.options.showCommand) && (log.options.currentCommand.entry.results.length > 0)">
                         <thead>
+                            <tr>
+                                <td colspan="7" class="success">
+                                    <div>
+                                        Success:
+                                        <span v-text="log.options.currentCommand.entry.success ? 'true' : 'false'"></span>
+                                    </div>
+                                </td>
+                            </tr>
                             <tr>
                                 <th>code</th>
                                 <th>command</th>
@@ -44,14 +52,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td colspan="7" class="success">
-                                    <div>
-                                        Success:
-                                        <span v-text="log.options.currentCommand.entry.success ? 'true' : 'false'"></span>
-                                    </div>
-                                </td>
-                            </tr>
                             <tr v-for="shell in log.options.currentCommand.entry.results" v-bind:class="{ cmdError: shell.code > 0 }">
                                 <td v-text="shell.code"></td>
                                 <td v-text="shell.command"></td>
