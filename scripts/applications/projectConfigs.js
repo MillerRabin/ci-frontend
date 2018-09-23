@@ -118,6 +118,8 @@ loader.application('projectConfigs', [async () => {
         const projectData = configStringToCommands(currentProject.project_data, ['credentials'], ['name', 'directory']);
         const defs = vm.defaults[vm.active];
         defs.project_data = projectData;
+        defs.branch = currentProject.branch;
+        defs.project_name = currentProject.project_name;
         return defs;
     }
 
