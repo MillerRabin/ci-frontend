@@ -5,7 +5,7 @@ const interfacePages = require('./pages/interface.js').pages;
 
 let config = {
     directory: mainConfig.root,
-    domain: 'https://raintech.su',
+    domain: 'https://ci.raintech.su',
     utils: {
         getModTime: sitemap.getModTime
     },
