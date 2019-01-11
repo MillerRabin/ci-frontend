@@ -42,6 +42,8 @@ async function buildCss(bundle) {
     function search(isMobile) {
         function ignore(file, stats) {
             if (stats.isDirectory()) return false;
+            const fp = path.parse(file);
+            if (fp.ext != '.css') return true;
             const mobile = file.match('mobile');
             let predicate = (mobile != null);
             if (isMobile) predicate = (mobile == null);
