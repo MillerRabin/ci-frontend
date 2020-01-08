@@ -1,0 +1,109 @@
+@font-face {
+    font-family: 'Roboto';
+    src: local('Roboto Thin'), local('Roboto-Thin'), url('/apps/roboto/Robotothin.woff2') format('woff2'), url('/apps/roboto/Robotothin.woff') format('woff'), url('/apps/roboto/Robotothin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: local('Roboto Thin Italic'), local('Roboto-ThinItalic'), url('/apps/roboto/Robotothinitalic.woff2') format('woff2'), url('/apps/roboto/Robotothinitalic.woff') format('woff'), url('/apps/roboto/Robotothinitalic.ttf') format('truetype');
+    font-weight: 100;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: local('Roboto Light'), local('Roboto-Light'), url('/apps/roboto/Robotolight.woff2') format('woff2'), url('/apps/roboto/Robotolight.woff') format('woff'), url('/apps/roboto/Robotolight.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: local('Roboto Light Italic'), local('Roboto-LightItalic'), url('/apps/roboto/Robotolightitalic.woff2') format('woff2'), url('/apps/roboto/Robotolightitalic.woff') format('woff'), url('/apps/roboto/Robotolightitalic.ttf') format('truetype');
+    font-weight: 300;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: local('Roboto'), local('Roboto-Regular'), url('/apps/roboto/Roboto.woff2') format('woff2'), url('/apps/roboto/Roboto.woff') format('woff'), url('/apps/roboto/Roboto.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: local('Roboto Italic'), local('Roboto-Italic'), url('/apps/roboto/Robotoitalic.woff2') format('woff2'), url('/apps/roboto/Robotoitalic.woff') format('woff'), url('/apps/roboto/Robotoitalic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: local('Roboto Medium'), local('Roboto-Medium'), url('/apps/roboto/Robotomedium.woff2') format('woff2'), url('/apps/roboto/Robotomedium.woff') format('woff'), url('/apps/roboto/Robotomedium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: local('Roboto Medium Italic'), local('Roboto-MediumItalic'), url('/apps/roboto/Robotomediumitalic.woff2') format('woff2'), url('/apps/roboto/Robotomediumitalic.woff') format('woff'), url('/apps/roboto/Robotomediumitalic.ttf') format('truetype');
+    font-weight: 500;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: local('Roboto Bold'), local('Roboto-Bold'), url('/apps/roboto/Robotobold.woff2') format('woff2'), url('/apps/roboto/Robotobold.woff') format('woff'), url('/apps/roboto/Robotobold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: local('Roboto Bold Italic'), local('Roboto-BoldItalic'), url('/apps/roboto/Robotobolditalic.woff2') format('woff2'), url('/apps/roboto/Robotobolditalic.woff') format('woff'), url('/apps/roboto/Robotobolditalic.ttf') format('truetype');
+    font-weight: 700;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: local('Roboto Black'), local('Roboto-Black'), url('/apps/roboto/Robotoblack.woff2') format('woff2'), url('/apps/roboto/Robotoblack.woff') format('woff'), url('/apps/roboto/Robotoblack.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: local('Roboto Black Italic'), local('Roboto-BlackItalic'), url('/apps/roboto/Robotoblackitalic.woff2') format('woff2'), url('/apps/roboto/Robotoblackitalic.woff') format('woff'), url('/apps/roboto/Robotoblackitalic.ttf') format('truetype');
+    font-weight: 900;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Roboto Condensed';
+    src: local('Roboto Condensed Light'), local('RobotoCondensed-Light'), url('/apps/roboto/Robotocondensedlight.woff2') format('woff2'), url('/apps/roboto/Robotocondensedlight.woff') format('woff'), url('/apps/roboto/Robotocondensedlight.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Roboto Condensed';
+    src: local('Roboto Condensed Light Italic'), local('RobotoCondensed-LightItalic'), url('/apps/roboto/Robotocondensedlightitalic.woff2') format('woff2'), url('/apps/roboto/Robotocondensedlightitalic.woff') format('woff'), url('/apps/roboto/Robotocondensedlightitalic.ttf') format('truetype');
+    font-weight: 300;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Roboto Condensed';
+    src: local('Roboto Condensed'), local('RobotoCondensed-Regular'), url('/apps/roboto/Robotocondensed.woff2') format('woff2'), url('/apps/roboto/Robotocondensed.woff') format('woff'), url('/apps/roboto/Robotocondensed.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Roboto Condensed';
+    src: local('Roboto Condensed Italic'), local('RobotoCondensed-Italic'), url('/apps/roboto/Robotocondenseditalic.woff2') format('woff2'), url('/apps/roboto/Robotocondenseditalic.woff') format('woff'), url('/apps/roboto/Robotocondenseditalic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Roboto Condensed';
+    src: local('Roboto Condensed Bold'), local('RobotoCondensed-Bold'), url('/apps/roboto/Robotocondensedbold.woff2') format('woff2'), url('/apps/roboto/Robotocondensedbold.woff') format('woff'), url('/apps/roboto/Robotocondensedbold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Roboto Condensed';
+    src: local('Roboto Condensed Bold Italic'), local('RobotoCondensed-BoldItalic'), url('/apps/roboto/Robotocondensedbolditalic.woff2') format('woff2'), url('/apps/roboto/Robotocondensedbolditalic.woff') format('woff'), url('/apps/roboto/Robotocondensedbolditalic.ttf') format('truetype');
+    font-weight: 700;
+    font-style: italic;
+}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+    <meta property="og:title" content="Rain Technologies Continuous Integration">
+    <meta name="author" content="Millerrabin">
+    <base href="/">
+    <link rel="icon" type="image/png" href="/favicon_s.png" sizes="64x64">
+    <link rel="icon" type="image/png" href="/favicon.png" sizes="152x152">
+    <meta name="ROBOTS" content="INDEX, FOLLOW">
+    <title>Raintech Continuous Integration.</title>
+    <meta name="description" content="Home">
+    <meta name="Keywords" content="Raintech Continuous Integration">
+    <link href="/apps/main/main.css" rel="stylesheet">
+    <script src="/node_modules/moment/min/moment.min.js"></script>
+    <script src="/apps/main/main.js" type="module"></script>
+</head>
+<body>
+<div id="CI">
+    <div id="Header_Container">
+        <header id="Header">
+            <div class="top">
+                <nav>
+                    <a href="/" class="focus">
+                        <h1 class="logo">Raintech CI</h1>
+                    </a>
+                    <ul>
+                        <li>
+                            <router-link to="/">Home</router-link>
+                        </li>
+                        <li class="create" v-bind:class="{ show: loaded}">
+                            <button v-on:click="showDialog" v-bind:disabled="disabled">Create new project</button>
+                        </li>
+                    </ul>
+                </nav>
+                <dialog>
+                    <button class="close focus" title="close" v-on:click="closeDialog"></button>
+                    <label>
+                        <input autofocus v-model="project_name" placeholder="New project name"
+                               v-bind:disabled="disabled"
+                               v-on:keypress.13="create"/>
+                        <span class="error" v-if="errors.project_name != null" v-text="errors.project_name"></span>
+                    </label>
+                    <div class="error" v-if="errors.message != null" v-text="errors.message"></div>
+                    <button class="submit focus" v-bind:disabled="disabled" v-on:click="create">Create</button>
+                </dialog>
+                <div class="auth_container" is="auth"></div>
+            </div>
+        </header>
+    </div>
+    <div id="Center">
+        <div id="Router">
+            <div is="frontpage">
+                <div class="Frontpage" v-bind:class="{ show: loaded == true }">
+                    <div class="info" v-if="showError == true">
+                        <div>You can't view any data anonymously please
+                            <button class="orange focus" v-on:click="login">Log In</button>
+                            or
+                            <button class="orange focus" v-on:click="signup">Sign Up</button>
+                            first
+                        </div>
+                    </div>
+                    <div class="content" v-if="showError == false">
+                        <nav class="projects" is="projectList"></nav>
+                        <div class="configs transition" v-bind:class="{ show: showConfigs }" is="projectConfigs"></div>
+                        <div class="logs transition" v-bind:class="{ fullLength: !showConfigs }" is="projectLogs"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="Footer_Container">
+        <footer id="Footer">
+            <div class="copyrights">
+                <div class="item copy">
+                    <a href="mailto:millerrabin@raintech.su" class="focus transition">millerrabin@raintech.su</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+</body>
+</html>
