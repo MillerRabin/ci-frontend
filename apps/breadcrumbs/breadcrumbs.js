@@ -1,4 +1,4 @@
-import loader from '/scripts/loader.js';
+import loader from '/node_modules/async-content-loader/main.js';
 
 loader.application('breadcrumbs', [async () => {
     function init() {

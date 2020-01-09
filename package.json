@@ -14,6 +14,11 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/raintechteam/ci-frontend#readme",
   "dependencies": {
-    "moment": "^2.22.2"
+    "async-content-loader": "^1.0.0",
+    "browser-messages": "^1.0.1",
+    "es-class-router": "^1.0.0",
+    "location-browser": "^1.0.0",
+    "moment": "^2.24.0",
+    "safe-ops": "^1.0.1"
   }
 }

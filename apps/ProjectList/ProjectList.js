@@ -1,11 +1,11 @@
-import loader from '/core/loader.js';
+import loader from '/node_modules/async-content-loader/main.js';
 import projects from '/apps/projects/projects.js';
-import location from '/core/location.js';
-import raintechAuth from '/node_modules/raintech-auth-client/main.js';
-import messages from '/apps/messages/messages.service.js';
+import location from '/node_modules/location-browser/main.js';
+import raintechAuth from '/apps/raintechAuth/raintechAuth.js';
+import messages from '/node_modules/browser-messages/main.js';
 
-loader.application('projectList', [async () => {
-    function setActive(vm) {
+
+/*    function setActive(vm) {
         const search = location.getSearch();
         vm.active = search.project;
     }
@@ -56,14 +56,24 @@ loader.application('projectList', [async () => {
     return {
         Constructor: Constructor,
     };
-}]);
+
 
 function reload() {
     messages.send('projects.reload');
+}*/
+
+const gTemplateP = loader.request(`/apps/ProjectList/ProjectList.html`);
+
+async function render(projectList) {
+    const template = await gTemplateP;
+    projectList._mount.innerHTML = template.text;
 }
 
-export default {
-    reload: reload
-}
 
+export default class ProjectList {
+    constructor(mount) {
+        this._mount = mount;
+        render(this);
+    }
+}
 

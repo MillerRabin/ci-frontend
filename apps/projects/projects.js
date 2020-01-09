@@ -1,7 +1,7 @@
-import loader from '/core/loader.js'
-import raintechAuth from '/node_modules/raintech-auth-client/main.js';
+import loader from '/node_modules/async-content-loader/main.js'
+import raintechAuth from '/apps/raintechAuth/raintechAuth.js';
 import postgres from '/apps/postgres/postgres.js';
-import safe from '/core/safe.js';
+import safe from '/node_modules/safe-ops/main.js';
 
 class ProjectException extends Error {
     constructor(object) {

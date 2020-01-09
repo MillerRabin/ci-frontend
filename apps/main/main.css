@@ -1,5 +1,8 @@
 @import "/apps/roboto/roboto.css";
 @import "/apps/fonts/ci.css";
+@import "/apps/header/header.css";
+@import "/apps/footer/footer.css";
+@import "/apps/Frontpage/Frontpage.css";
 
 * {
     box-sizing: border-box;

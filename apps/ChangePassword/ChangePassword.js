@@ -1,9 +1,9 @@
-import loader from '/core/loader.js';
-import raintechAuth from '/node_modules/raintech-auth-client/main.js';
+import loader from '/node_modules/async-content-loader/main.js';
+import raintechAuth from '/apps/raintechAuth/raintechAuth.js';
 
-loader.application('changePassword', [async () => {
-    await loader.createVueTemplate({ path: '/pages/changePassword.html', id: 'ChangePassword-Template' });
-    const res = {};
+const gTemplateP = loader.request(`/apps/ChangePassword/ChangePassword.html`);
+
+    /*const res = {};
     const emptyPass = 'Password is empty';
     res.data =  {
         email: '',
@@ -14,9 +14,10 @@ loader.application('changePassword', [async () => {
         disabled: true,
         isOk: true,
         changed: false
-    };
+    };*/
 
-    res.Constructor = Vue.component('changePassword', {
+
+/*    res.Constructor = Vue.component('changePassword', {
         template: '#ChangePassword-Template',
         data: function () {
             return res.data;
@@ -66,4 +67,18 @@ loader.application('changePassword', [async () => {
     });
     return res;
 }]);
+*/
 
+async function render(changePassword) {
+    const template = await gTemplateP;
+    changePassword._mount.innerHTML = template.text;
+}
+
+class ChangePassword {
+    constructor(mount) {
+        this._mount = mount;
+        render(this);
+    }
+}
+
+export default ChangePassword;

@@ -1,52 +1,52 @@
-import loader from '/core/loader.js';
-import raintechAuth from '/node_modules/raintech-auth-client/main.js'
+import loader from '/node_modules/async-content-loader/main.js';
+import raintechAuth from '/apps/raintechAuth/raintechAuth.js';
 
-loader.application('auth', [async () => {
-    function getUser() {
-        if (raintechAuth.currentUser.certificate == null) return null;
-        let fullName = raintechAuth.currentUser.login;
-        fullName = (fullName == null) ? raintechAuth.currentUser.email : fullName;
-        return {
-            fullName: fullName
-        }
+const gTemplateP = loader.request(`/apps/Auth/Auth.html`);
+
+function getUser() {
+    if (raintechAuth.currentUser.certificate == null) return null;
+    let fullName = raintechAuth.currentUser.login;
+    fullName = (fullName == null) ? raintechAuth.currentUser.email : fullName;
+    return {
+        fullName: fullName
     }
+}
 
-
-    function init() {
-        return {
-            dialog: null,
-            tab: 0,
-            email: '',
-            password: '',
-            newPassword: '',
-            confirmPassword: '',
-            errors: {},
-            agree: true,
-            currentUser: getUser(),
-            loaded: false,
-            showProfile: false,
-            message: null,
-            disabled: false,
-            rememberLinkSent: false
-        }
+function init() {
+    return {
+        dialog: null,
+        tab: 0,
+        email: '',
+        password: '',
+        newPassword: '',
+        confirmPassword: '',
+        errors: {},
+        agree: true,
+        currentUser: getUser(),
+        loaded: false,
+        showProfile: false,
+        message: null,
+        disabled: false,
+        rememberLinkSent: false
     }
+}
 
-    function show(vm, tab = 0) {
-        vm.email = '';
-        vm.password = '';
-        vm.newPassword = '';
-        vm.confirmPassword = '';
-        vm.errors = {};
-        vm.agree = true;
-        vm.dialog.showModal();
-        vm.tab = tab;
-    }
+function show(vm, tab = 0) {
+    vm.email = '';
+    vm.password = '';
+    vm.newPassword = '';
+    vm.confirmPassword = '';
+    vm.errors = {};
+    vm.agree = true;
+    vm.dialog.showModal();
+    vm.tab = tab;
+}
 
-    function hide(vm) {
-        vm.dialog.close();
-    }
+function hide(vm) {
+    vm.dialog.close();
+}
 
-    await loader.createVueTemplate({ path: '/pages/auth.html', id: 'Auth-Template' });
+/*
     const res = {};
     res.Constructor = Vue.component('auth', {
         template: '#Auth-Template',
@@ -144,5 +144,16 @@ loader.application('auth', [async () => {
         }
     });
     return res;
-}]);
+*/
 
+async function render(auth) {
+    const template = await gTemplateP;
+    auth._mount.innerHTML = template.text;
+}
+
+export default class Auth {
+    constructor(mount) {
+        this._mount = mount;
+        render(this);
+    }
+}

@@ -1,12 +1,12 @@
-import loader from '/core/loader.js';
-import '/apps/router/router.js';
-import '/apps/auth/auth.js';
-import raintechAuth from '/node_modules/raintech-auth-client/main.js';
+import loader from '/node_modules/async-content-loader/main.js';
+import router from '/node_modules/es-class-router/main.js';
+import routeTables from './routeTables.js';
+import '/apps/Auth/Auth.js';
+import raintechAuth from '/apps/raintechAuth/raintechAuth.js';
 import projects from '/apps/projects/projects.js';
-import projectList from '/apps/projectList/projectList.js';
+import projectList from '/apps/ProjectList/ProjectList.js';
 
-loader.application('Main', ['router', 'auth', async (router) => {
-    const data = {
+/*    const data = {
         loaded: false,
         dialog: null,
         project_name: '',
@@ -75,4 +75,24 @@ loader.application('Main', ['router', 'auth', async (router) => {
     });
 
     return data;
-}]);
+}]);*/
+
+async function render(main) {
+    router.mount = main.mount.querySelector('#Router');
+    router.routes = routeTables;
+}
+
+class Main {
+    constructor(mount) {
+        this._mount = mount;
+        render(this);
+    }
+
+    get mount() {
+        return this._mount;
+    }
+}
+
+loader.globalContentLoaded.then(() => {
+   new Main(window.document.body);
+});

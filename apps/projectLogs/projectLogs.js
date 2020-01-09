@@ -1,4 +1,4 @@
-import loader from '/core/loader.js';
+import loader from '/node_modules/async-content-loader/main.js';
 import logs from '/apps/logs/logs.js';
 
 function formatShellCommands(entry) {

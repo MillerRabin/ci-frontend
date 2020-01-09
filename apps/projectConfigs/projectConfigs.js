@@ -1,9 +1,9 @@
-import loader from '/core/loader.js';
+import loader from '/node_modules/async-content-loader/main.js';
 import projects from '/apps/projects/projects.js';
-import location from '/core/location.js';
-import raintechAuth from '/node_modules/raintech-auth-client/main.js';
-import projectList from '/apps/projectList/projectList.js';
-import safe from '/core/safe.js';
+import location from '/node_modules/location-browser/main.js';
+import raintechAuth from '/apps/raintechAuth/raintechAuth.js';
+import projectList from '/apps/ProjectList/ProjectList.js';
+import safe from '/node_modules/safe-ops/main.js';
 
 loader.application('projectConfigs', [async () => {
     function init() {
