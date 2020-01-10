@@ -1,3 +1,5 @@
+@import '../Auth/Auth.css';
+
 #Header {
     padding: 4rem 8rem 1rem 8rem;
     font-size: 2rem;
@@ -36,10 +38,14 @@
     border-left: 0.139vw solid rgb(255, 96, 61);
 }
 
+#Header nav ul li.active a {
+    color: rgb(255, 96, 61);
+}
+
 #Header .create {
     display: none;
 }
 
-#Header .create.show {
+#CI.loaded #Header .create {
     display: block;
 }

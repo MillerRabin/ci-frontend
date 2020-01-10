@@ -1,18 +1,17 @@
 .Frontpage {
     height: 100%;
-    display: none;
-}
-
-.Frontpage.show {
-    display: block;
 }
 
 .Frontpage > .content {
     padding: 0 8rem 0 8rem;
-    display: flex;
     align-items: stretch;
     justify-content: space-between;
     height: 100%;
+    display: none;
+}
+
+#CI.loaded .Frontpage > .content {
+    display: flex;
 }
 
 .Frontpage .content .projects {
@@ -50,6 +49,11 @@
     text-align: center;
     font-size: 2rem;
     margin-top: 15rem;
+    display: block;
+}
+
+#CI.loaded .Frontpage .info {
+    display: none;
 }
 
 .Frontpage .info button:hover {

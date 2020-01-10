@@ -1,31 +1,14 @@
 import loader from '/node_modules/async-content-loader/main.js';
 import location from '/node_modules/location-browser/main.js';
-import raintechAuth from '/apps/raintechAuth/raintechAuth.js';
+import router from '/node_modules/es-class-router/main.js';
 
 const gTemplateP = loader.request(`/apps/Frontpage/Frontpage.html`);
-
-function init() {
-    return {
-        showConfigs: false,
-        showError: false,
-        loaded: false
-    }
-}
 
 function showConfigs(vm) {
     const search = location.getSearch();
     vm.showConfigs = (search.project != null);
 }
 
-async function checkUser(vm) {
-    try {
-        await raintechAuth.check();
-        vm.showError = false;
-    } catch (e) {
-        vm.showError = true;
-    }
-    vm.loaded = true;
-}
 
 /*const res = {};
 res.Constructor = Vue.component('frontpage', {
@@ -34,14 +17,6 @@ res.Constructor = Vue.component('frontpage', {
     watch:{
         $route (to){
             showConfigs(this);
-        }
-    },
-    methods: {
-        login: function () {
-            auth.login();
-        },
-        signup: function () {
-            auth.signup();
         }
     },
     mounted: function () {
@@ -53,10 +28,22 @@ res.Constructor = Vue.component('frontpage', {
     }
 });*/
 
+function enableLoginSignup(frontpage) {
+    const login = frontpage.mount.querySelector('.info .login');
+    const auth = router.application.header.auth;
+    login.onclick = function () {
+        router.application.header.auth.login();
+    };
+    const signup = frontpage.mount.querySelector('.info .signup');
+    signup.onclick = function () {
+        router.application.header.auth.signup();
+    };
+}
+
 async function render(frontpage) {
     const template = await gTemplateP;
     frontpage._mount.innerHTML = template.text;
-    checkUser(frontpage);
+    enableLoginSignup(frontpage);
 }
 
 export default class Frontpage {
@@ -67,18 +54,6 @@ export default class Frontpage {
 
     get mount() {
         return this._mount;
-    }
-
-    get loaded() {
-        this._mount.classList.contains('show');
-    }
-
-    set loaded(value) {
-        if (value) {
-            this._mount.classList.add('show');
-            return;
-        }
-        this._mount.classList.remove('show');
     }
 }
 

@@ -129,7 +129,7 @@ async function update(data) {
 }
 
 async function check() {
-    const currentUser = getCurrentUser();
+    const currentUser = await getCurrentUser();
     if (currentUser == null) throw new RaintechAuthException({ message: 'User is not authorized'});
     return currentUser;
 }

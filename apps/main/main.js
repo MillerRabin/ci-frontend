@@ -1,10 +1,10 @@
 import loader from '/node_modules/async-content-loader/main.js';
 import router from '/node_modules/es-class-router/main.js';
 import routeTables from './routeTables.js';
-import '/apps/Auth/Auth.js';
 import raintechAuth from '/apps/raintechAuth/raintechAuth.js';
 import projects from '/apps/projects/projects.js';
 import projectList from '/apps/ProjectList/ProjectList.js';
+import Header from '../Header/Header.js'
 
 /*    const data = {
         loaded: false,
@@ -55,44 +55,68 @@ import projectList from '/apps/ProjectList/ProjectList.js';
             }
 
         },
-        mounted: async function () {
-            try {
-                this.dialog = this.$el.querySelector('dialog');
-                await raintechAuth.check();
-                this.loaded = true;
-            } catch (e) {
-                this.loaded = false;
-            }
-
-            raintechAuth.onUserChanged((user) => {
-                if (user == null) {
-                    this.loaded = false;
-                    return;
-                }
-                this.loaded = true;
-            });
-        }
+        mounted:
     });
 
     return data;
 }]);*/
 
+async function init(main) {
+    try {
+        await raintechAuth.check();
+        main.loaded = true;
+    } catch (e) {
+        main.loaded = false;
+    }
+
+    raintechAuth.onUserChanged((user) => {
+        if (user == null) {
+            main.loaded = false;
+            return;
+        }
+        main.loaded = true;
+    });
+}
+
 async function render(main) {
     router.mount = main.mount.querySelector('#Router');
     router.routes = routeTables;
+    const headerM = main.mount.querySelector('#Header_Container');
+    main._header = new Header(headerM);
+    await init(main);
 }
 
 class Main {
     constructor(mount) {
+        router.application = this;
         this._mount = mount;
+        this._dialog = this._mount.querySelector('dialog');
+        this._header = null;
         render(this);
     }
 
     get mount() {
         return this._mount;
     }
+
+    get loaded() {
+        return this._mount.classList.contains('loaded');
+    }
+
+    set loaded(value) {
+        if (value) {
+            this._mount.classList.add('loaded');
+            return;
+        }
+        this._mount.classList.remove('loaded');
+    }
+
+    get header() {
+        return this._header;
+    }
 }
 
 loader.globalContentLoaded.then(() => {
-   new Main(window.document.body);
+    const mount = window.document.getElementById('CI');
+    new Main(mount);
 });

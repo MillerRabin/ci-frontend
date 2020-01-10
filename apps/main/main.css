@@ -1,6 +1,6 @@
 @import "/apps/roboto/roboto.css";
 @import "/apps/fonts/ci.css";
-@import "/apps/header/header.css";
+@import "/apps/Header/Header.css";
 @import "/apps/footer/footer.css";
 @import "/apps/Frontpage/Frontpage.css";
 
@@ -112,6 +112,7 @@ button {
     color: #ff603d;
     display: block;
     margin-top: 0.5rem;
+    font-size: 1.3rem;
 }
 
 .submit {
@@ -275,6 +276,17 @@ dialog input {
 dialog input[type="checkbox"] {
     display: inline;
     width: auto;
+    vertical-align: middle;
+    margin-bottom: 0;
+}
+
+.middle {
+    vertical-align: middle;
+    font-size: 1.3rem;
+}
+
+.pointer {
+    cursor: pointer;
 }
 
 .tabs {
