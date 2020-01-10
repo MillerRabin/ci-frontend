@@ -39,6 +39,16 @@ function clearErrors(auth) {
 }
 
 function setErrors(auth, selector, error) {
+    if (error.login != null) {
+        auth.fields[selector].email.error.innerHTML = error.login;
+        auth.fields[selector].email.input.focus();
+    }
+
+    if (error.password != null) {
+        auth.fields[selector].password.error.innerHTML = error.password;
+        auth.fields[selector].password.input.focus();
+    }
+
     if (error.message != null) {
         auth.fields[selector].email.error.innerHTML = error.message;
         auth.fields[selector].email.input.focus();
@@ -90,6 +100,10 @@ async function login(auth) {
     try {
         clearErrors(auth);
         auth.disabled = true;
+        const err = {};
+        if (auth.fields.login.email.input.value == '') err.login = "The E-mail can't be empty";
+        if (auth.fields.login.password.input.value == '') err.password = "The Password can't be empty";
+        if (Object.keys(err).length > 0) throw err;
         await raintechAuth.login({
             loginOrEmail: auth.fields.login.email.input.value,
             password: auth.fields.login.password.input.value
