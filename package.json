@@ -14,7 +14,7 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/raintechteam/ci-frontend#readme",
   "dependencies": {
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1"
   }
