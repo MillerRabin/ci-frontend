@@ -15,7 +15,7 @@
   "homepage": "https://bitbucket.org/raintechteam/ci-frontend#readme",
   "dependencies": {
     "moment": "^2.22.2",
-    "vue": "^2.5.16",
+    "vue": "^3.0.0",
     "vue-router": "^3.0.1"
   }
 }
